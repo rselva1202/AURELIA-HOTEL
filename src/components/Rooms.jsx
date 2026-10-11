@@ -1,5 +1,5 @@
 import styles from './Rooms.module.css';
-import { buildWhatsAppUrl } from '../utils/helpers';
+import { buildWhatsAppUrl, assetUrl } from '../utils/helpers';
 
 export default function Rooms({ rooms, contact, brandName }) {
   const handleEnquire = (room) => {
@@ -29,7 +29,7 @@ export default function Rooms({ rooms, contact, brandName }) {
               {/* Image */}
               <div className={styles.imgWrap}>
                 <img
-                  src={room.image}
+                  src={assetUrl(room.image)}
                   alt={`${room.name} — ${room.description.slice(0, 60)}`}
                   loading="lazy"
                   decoding="async"

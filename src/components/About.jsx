@@ -1,4 +1,5 @@
 import styles from './About.module.css';
+import { assetUrl } from '../utils/helpers';
 
 export default function About({ data }) {
   return (
@@ -32,7 +33,7 @@ export default function About({ data }) {
           <div className={`reveal ${styles.imgCol}`} style={{ transitionDelay: '0.1s' }}>
             <div className={styles.imgFrame}>
               <img
-                src={data.image}
+                src={assetUrl(data.image)}
                 alt="Aurelia Hotel cliff facade with ocean behind"
                 loading="lazy"
                 decoding="async"

@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import styles from './Gallery.module.css';
+import { assetUrl } from '../utils/helpers';
 
 /* ── Lightbox ─────────────────────────────────── */
 function Lightbox({ images, activeIndex, onClose, onPrev, onNext }) {
@@ -49,7 +50,7 @@ function Lightbox({ images, activeIndex, onClose, onPrev, onNext }) {
       {/* Image */}
       <div className={styles.lbImgWrap} onClick={(e) => e.stopPropagation()}>
         <img
-          src={img.src}
+          src={assetUrl(img.src)}
           alt={img.alt}
           className={styles.lbImg}
           onError={(e) => { e.target.style.display = 'none'; }}
@@ -103,7 +104,7 @@ export default function Gallery({ images }) {
                 aria-label={`View photo: ${img.alt}`}
               >
                 <img
-                  src={img.src}
+                  src={assetUrl(img.src)}
                   alt={img.alt}
                   loading="lazy"
                   decoding="async"

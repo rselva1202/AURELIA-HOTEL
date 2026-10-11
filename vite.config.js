@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
+  base: '/AURELIA-HOTEL/',
   plugins: [react()],
   build: {
     // Chunk splitting for better caching

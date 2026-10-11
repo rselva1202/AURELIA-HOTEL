@@ -1,4 +1,5 @@
 import styles from './Dining.module.css';
+import { assetUrl } from '../utils/helpers';
 
 export default function Dining({ data }) {
   return (
@@ -9,7 +10,7 @@ export default function Dining({ data }) {
           <div className={`reveal ${styles.imgCol}`}>
             <div className={styles.imgFrame}>
               <img
-                src={data.image}
+                src={assetUrl(data.image)}
                 alt="Aurelia Hotel rooftop dining with ocean view"
                 loading="lazy"
                 decoding="async"

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLenis } from './hooks/useLenis';
 import { useScrollReveal } from './hooks/useScrollReveal';
-import { shouldUseFallback } from './utils/helpers';
+import { shouldUseFallback, assetUrl } from './utils/helpers';
 import siteConfig from './data/siteConfig';
 
 // Components
@@ -90,7 +90,7 @@ export default function App() {
     setMeta('description', seo.description);
     setMeta('og:title', seo.title, true);
     setMeta('og:description', seo.description, true);
-    setMeta('og:image', seo.ogImage, true);
+    setMeta('og:image', assetUrl(seo.ogImage), true);
     setMeta('og:url', seo.siteUrl, true);
 
     if (demoMode) {

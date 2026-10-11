@@ -5,6 +5,7 @@ import {
   shouldUseFallback,
   isMobileFrameset,
   frameName,
+  assetUrl,
   lerp,
   clamp,
   coverFitParams,
@@ -36,7 +37,7 @@ function HeroFallback({ config }) {
       <div className={styles.fallbackImgWrap}>
         <img
           ref={imgRef}
-          src={config?.frames?.poster ?? '/frames/poster.webp'}
+          src={assetUrl(config?.frames?.poster ?? '/frames/poster.webp')}
           alt="Aurelia Hotel cliff view over the Arabian Sea"
           className={styles.fallbackImg}
           onError={(e) => {
@@ -86,7 +87,7 @@ export default function Hero({ config, onLoadProgress, lenisRef }) {
   const frameSet    = isMobileFrameset() ? config.frames.mobile : config.frames.desktop;
   const totalFrames = frameSet.count;
   const framePathFn = useCallback(
-    (i) => `${frameSet.path}${frameName(i, frameSet.ext)}`,
+    (i) => assetUrl(`${frameSet.path}${frameName(i, frameSet.ext)}`),
     [frameSet.path, frameSet.ext]
   );
 
@@ -290,7 +291,7 @@ export default function Hero({ config, onLoadProgress, lenisRef }) {
   useEffect(() => {
     if (config?.frames?.poster) {
       const p = new Image();
-      p.src = config.frames.poster;
+      p.src = assetUrl(config.frames.poster);
       p.onload = () => {
         posterImgRef.current = p;
         draw();

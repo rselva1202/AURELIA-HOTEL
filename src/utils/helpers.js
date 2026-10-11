@@ -35,6 +35,20 @@ export function padNum(n, digits = 4) {
 }
 
 /**
+ * Prefixes a path with import.meta.env.BASE_URL for GitHub Pages support.
+ */
+export function assetUrl(path = '') {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
+    return path;
+  }
+  const base = import.meta.env.BASE_URL || '/';
+  const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base;
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${cleanBase}${cleanPath}`;
+}
+
+/**
  * Builds a frame filename like "f_0001.webp"
  */
 export function frameName(index, ext = 'webp') {
