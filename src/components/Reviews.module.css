@@ -1,0 +1,70 @@
+.reviews { background: var(--ivory); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #fff;
+}
+
+/* ── Stars ─────────────── */
+.stars { display: flex; gap: 0.15rem; }
+.starFilled { color: #e8a93a; font-size: 1.1rem; }
+.starEmpty  { color: #ddd;    font-size: 1.1rem; }
+
+/* ── Quote ─────────────── */
+.quote p {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+  flex: 1;
+  max-width: none;
+}
+
+/* ── Reviewer ───────────── */
+.reviewer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--sand-dark);
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.name {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-style: normal;
+  color: var(--dark);
+}
+
+.meta {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 0.15rem;
+}

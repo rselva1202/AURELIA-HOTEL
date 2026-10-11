@@ -1,0 +1,205 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  transition: background var(--transition-base), box-shadow var(--transition-base), height var(--transition-base);
+}
+
+.navbar.scrolled {
+  background: rgba(15, 79, 79, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.18);
+  height: 60px;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 1.5rem;
+}
+
+/* ── Logo ─────────────── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoA {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--sand);
+  color: var(--teal-dark);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fdf8f0;
+  letter-spacing: 0.04em;
+}
+
+/* ── Desktop nav ─────── */
+.desktopNav {
+  margin-left: auto;
+}
+
+.desktopNav ul {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.navLink {
+  display: block;
+  padding: 0.4rem 0.75rem;
+  color: rgba(253,248,240,0.85);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-base), background var(--transition-base);
+  position: relative;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: calc(100% - 1.5rem);
+  height: 1.5px;
+  background: var(--seafoam);
+  transition: transform var(--transition-base);
+  transform-origin: center;
+}
+
+.navLink:hover { color: #fdf8f0; }
+.navLink:hover::after { transform: translateX(-50%) scaleX(1); }
+
+/* ── Book btn ─────────── */
+.bookBtn {
+  flex-shrink: 0;
+  color: var(--seafoam) !important;
+  border-color: var(--seafoam) !important;
+  font-size: 0.82rem;
+  padding: 0.5rem 1.25rem;
+}
+.bookBtn:hover { color: var(--teal-dark) !important; }
+
+/* ── Hamburger ─────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+  margin-left: auto;
+  border-radius: var(--radius-sm);
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #fdf8f0;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile menu ─────── */
+.mobileMenu {
+  position: fixed;
+  inset: 0;
+  background: var(--teal-dark);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.mobileMenu.mobileOpen {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.mobileLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  padding-inline: 2rem;
+}
+
+.mobileLink {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--sand);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-base);
+}
+
+.mobileLink:hover { color: var(--seafoam); }
+
+.mobileBook {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  padding: 0.75rem 2.5rem;
+}
+
+.mobileLocation {
+  margin-top: 2rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--seafoam);
+  opacity: 0.6;
+}
+
+/* ── Backdrop ────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+}
+
+/* ── Responsive ─────── */
+@media (max-width: 900px) {
+  .desktopNav { display: none; }
+  .bookBtn { display: none; }
+  .hamburger { display: flex; }
+}
+
+@media (min-width: 901px) {
+  .mobileMenu { display: none; }
+  .hamburger { display: none; }
+}

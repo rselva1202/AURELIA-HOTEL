@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#1a7a7a"/>
+  <rect y="400" width="800" height="200" fill="#0f4f4f"/>
+  <circle cx="400" cy="280" r="120" fill="#2aa8a8" opacity="0.4"/>
+  <text x="400" y="260" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#f5e6c8" font-weight="bold">Aurelia Hotel</text>
+  <text x="400" y="298" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#a8d8d8">About — Cliff View</text>
+</svg>

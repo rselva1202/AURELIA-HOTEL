@@ -1,0 +1,179 @@
+/* ── Hero Scroll Track & Sticky Viewport ─── */
+.heroTrack {
+  position: relative;
+  width: 100%;
+  height: 400vh;
+  background: #0f4f4f;
+}
+
+.heroSticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #0f4f4f;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Fallback ─────────── */
+.fallback {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 40%, #1a7a7a 0%, #0f4f4f 60%, #092c2c 100%);
+}
+
+.fallbackImgWrap {
+  position: absolute;
+  inset: -20%;
+  will-change: transform;
+}
+
+.fallbackImg {
+  width: 100%;
+  height: 140%;
+  object-fit: cover;
+}
+
+/* ── Gradient overlay ─── */
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(15, 79, 79, 0.35) 0%,
+      rgba(15, 79, 79, 0.15) 40%,
+      rgba(15, 79, 79, 0.55) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Fallback content ─── */
+.heroContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  padding-inline: 1.5rem;
+  max-width: 800px;
+}
+
+.heroContent h1 {
+  color: #fdf8f0;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+  font-size: clamp(2.2rem, 5.5vw, 4.2rem);
+}
+
+/* ── Text steps ──────── */
+.stepsContainer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 1.5rem;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.step {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  pointer-events: none;
+}
+
+.stepActive {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.step h1 {
+  color: #fdf8f0;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.4);
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #a8d8d8;
+  max-width: none;
+}
+
+/* ── CTA button ─────── */
+.heroCta {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  padding: 0.75rem 2rem;
+}
+
+/* ── Scroll indicator ── */
+.scrollHint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(253, 248, 240, 0.7);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  animation: scrollBounce 2s ease-in-out infinite;
+  z-index: 5;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(253,248,240,0.7), transparent);
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+.scrollHintHidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+@media (max-width: 768px) {
+  .step h1 { font-size: clamp(1.6rem, 7vw, 2.5rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollHint { animation: none; }
+  .step { transition: none; }
+}

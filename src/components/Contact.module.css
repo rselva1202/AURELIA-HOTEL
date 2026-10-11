@@ -1,0 +1,55 @@
+.contact { background: var(--ivory); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: 1.5rem;
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+.contactCard {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  text-decoration: none;
+}
+
+.contactCard h3 {
+  font-size: 1rem;
+  color: var(--teal-dark);
+}
+
+.contactCard p {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  max-width: none;
+}
+
+/* Arrow slide */
+.arrow {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--teal);
+  transform: translateX(0);
+  transition: transform var(--transition-base);
+}
+.contactCard:hover .arrow { transform: translateX(6px); }
+.contactCard:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.13); }
+
+/* WhatsApp card accent */
+.whatsapp { border-top: 3px solid #25D366; }
+.whatsapp .cardIcon { color: #25D366; }
+
+.cardIcon {
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
