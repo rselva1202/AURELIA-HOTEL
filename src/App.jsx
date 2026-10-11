@@ -5,7 +5,8 @@ import { shouldUseFallback, assetUrl } from './utils/helpers';
 import siteConfig from './data/siteConfig';
 
 // Components
-import LoadingScreen   from './components/LoadingScreen';
+import LoadingCurtain   from './components/LoadingCurtain';
+import curtainStyles   from './components/LoadingCurtain.module.css';
 import Navbar          from './components/Navbar';
 import Hero            from './components/Hero';
 import WaveDivider     from './components/WaveDivider';
@@ -47,15 +48,16 @@ export default function App() {
 
   const [loadProgress, setLoadProgress] = useState(useFallback ? 1 : 0);
   const [loadingDone, setLoadingDone]   = useState(useFallback);
+  const [pageEntered, setPageEntered]   = useState(useFallback);
 
   const handleLoadProgress = useCallback((progress) => {
     setLoadProgress(progress);
     if (progress >= (siteConfig.hero.preloadInitial ?? 0.2)) {
-      setTimeout(() => setLoadingDone(true), 300);
+      setLoadingDone(true);
     }
   }, []);
 
-  // Safety fallback: ensure loading screen disappears within 2.5s even under slow conditions
+  // Safety fallback: ensure page is marked ready even under slow network
   useEffect(() => {
     if (useFallback) return;
     const t = setTimeout(() => setLoadingDone(true), 2500);
@@ -100,18 +102,25 @@ export default function App() {
 
   return (
     <>
-      {/* Loading screen (canvas hero only) */}
-      {!useFallback && !loadingDone && (
-        <LoadingScreen
-          progress={loadProgress}
-          hidden={loadingDone}
-          brandName={siteConfig.brandName}
+      {/* Editorial Full-Screen Loading Curtain */}
+      {!useFallback && (
+        <LoadingCurtain
+          isAppReady={loadingDone}
+          minDisplayTime={2000}
+          onCurtainComplete={() => setPageEntered(true)}
+          brandTitle={siteConfig.brandName}
+          subtitle="Boutique Cliff Sanctuary"
+          edition="Varkala · Kerala"
         />
       )}
 
       <Navbar />
 
-      <main id="main-content" ref={mainRef}>
+      <main
+        id="main-content"
+        ref={mainRef}
+        className={pageEntered ? curtainStyles.pageEntered : ''}
+      >
         {/* 3D scroll hero */}
         <Hero
           config={siteConfig.hero}
