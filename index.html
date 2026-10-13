@@ -4,31 +4,1182 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Favicon & Brand Icon -->
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
 
-    <!-- Primary Meta (overridden by React Helmet equivalent via script tags) -->
-    <title>Aurelia Hotel — Cliff Resort in Varkala, Kerala</title>
-    <meta name="description" content="A boutique cliff-top resort in Varkala, Kerala. Ocean-view rooms, farm-to-table dining and sunset terraces perched above the Arabian Sea." />
+    <!-- Primary Meta Tags -->
+    <title>Aurelia Hotel — Boutique Cliff Resort in Varkala, Kerala</title>
+    <meta
+      name="description"
+      content="A boutique cliff-top sanctuary in Varkala, Kerala. Ocean-view rooms, farm-to-table dining, and sunset terraces perched 30m above the turquoise Arabian Sea."
+    />
+    <meta name="robots" content="noindex, nofollow" />
 
-    <!-- Demo: noindex injected dynamically in App.jsx via demoMode flag -->
-
-    <!-- Open Graph (static fallback — React updates these) -->
+    <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Aurelia Hotel — Cliff Resort in Varkala, Kerala" />
-    <meta property="og:description" content="A boutique cliff-top resort in Varkala, Kerala." />
-    <meta property="og:image" content="/frames/poster.webp" />
+    <meta property="og:title" content="Aurelia Hotel — Boutique Cliff Resort in Varkala, Kerala" />
+    <meta
+      property="og:description"
+      content="Where the red cliff meets the turquoise sea. An unhurried, luxury coastal retreat."
+    />
+    <meta property="og:image" content="./frames/poster.webp" />
 
-    <!-- Preconnect for Google Fonts -->
+    <!-- Preconnect Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- ── 1. EDITORIAL LOADING CURTAIN ──────────────────────────── -->
+    <div class="curtain-overlay" role="status" aria-label="Loading Aurelia Hotel Experience">
+      <div class="curtain-content">
+        <div class="curtain-brand">AURELIA</div>
+        <div class="curtain-hairline-track" aria-hidden="true">
+          <div class="curtain-hairline-progress"></div>
+        </div>
+        <div class="curtain-mask-row">
+          <div class="curtain-mask-text">Boutique Cliff Sanctuary</div>
+        </div>
+        <div class="curtain-mask-row">
+          <div class="curtain-mask-text">Varkala · Kerala · 08°44′ N</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. FLOATING PILL NAVIGATION ───────────────────────────── -->
+    <header class="nav-wrap" role="banner">
+      <div class="nav-pill">
+        <a href="#hero" class="nav-logo" aria-label="Aurelia Hotel Home">
+          <span class="nav-logo-mark">A</span>
+          <span>AURELIA</span>
+        </a>
+
+        <nav class="nav-links-container" aria-label="Main Navigation">
+          <ul class="nav-links" role="list">
+            <span class="nav-indicator" aria-hidden="true"></span>
+            <li><a href="#about">Story</a></li>
+            <li><a href="#rooms">Rooms</a></li>
+            <li><a href="#amenities">Sanctuary</a></li>
+            <li><a href="#dining">Dining</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#voices">Voices</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- Ambient Ocean Waves Sound Toggle -->
+        <button
+          class="sound-toggle-btn"
+          aria-label="Toggle ambient sea sound"
+          aria-pressed="false"
+          title="Ambient Sea Waves"
+        >
+          <div class="eq-bars" aria-hidden="true">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+          </div>
+        </button>
+
+        <!-- "Book Now" Button with Rotating Conic-Gradient Gold Border -->
+        <a href="#contact" class="nav-book-btn">Book Now</a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="nav-hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <!-- Scroll Progress Line under Nav Pill -->
+        <div class="nav-scroll-progress" aria-hidden="true">
+          <div class="nav-scroll-progress-fill"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Full-Screen Menu (Circular clip-path reveal) -->
+    <div class="mobile-nav-curtain" role="dialog" aria-modal="true" aria-label="Navigation menu">
+      <ul class="mobile-nav-links" role="list">
+        <li><a href="#about">Story</a></li>
+        <li><a href="#rooms">Rooms &amp; Suites</a></li>
+        <li><a href="#amenities">Sanctuary Amenities</a></li>
+        <li><a href="#dining">Cliff Dining</a></li>
+        <li><a href="#gallery">Visual Gallery</a></li>
+        <li><a href="#voices">Guest Voices</a></li>
+        <li><a href="#contact">Reserve Stay</a></li>
+      </ul>
+    </div>
+
+    <!-- ── 3. RIGHT-EDGE SECTION TRACKER ─────────────────────────── -->
+    <aside class="section-tracker" aria-label="Page navigation dots">
+      <div class="section-dot active" data-target="#hero" title="Hero">
+        <span class="section-dot-label">00 Intro</span>
+      </div>
+      <div class="section-dot" data-target="#about" title="Our Story">
+        <span class="section-dot-label">01 Story</span>
+      </div>
+      <div class="section-dot" data-target="#rooms" title="Rooms & Suites">
+        <span class="section-dot-label">02 Rooms</span>
+      </div>
+      <div class="section-dot" data-target="#amenities" title="Sanctuary">
+        <span class="section-dot-label">03 Amenities</span>
+      </div>
+      <div class="section-dot" data-target="#dining" title="Dining">
+        <span class="section-dot-label">04 Dining</span>
+      </div>
+      <div class="section-dot" data-target="#gallery" title="Gallery">
+        <span class="section-dot-label">05 Gallery</span>
+      </div>
+      <div class="section-dot" data-target="#voices" title="Voices">
+        <span class="section-dot-label">06 Voices</span>
+      </div>
+      <div class="section-dot" data-target="#location" title="Location">
+        <span class="section-dot-label">07 Location</span>
+      </div>
+      <div class="section-dot" data-target="#faq" title="FAQ">
+        <span class="section-dot-label">08 FAQ</span>
+      </div>
+      <div class="section-dot" data-target="#contact" title="Contact">
+        <span class="section-dot-label">09 Contact</span>
+      </div>
+    </aside>
+
+    <main id="main-content">
+      <!-- ── 4. PINNED 3D SCROLL CANVAS HERO ─────────────────────── -->
+      <section id="hero" class="hero-track" aria-label="Aurelia Hotel Cinematic Cliff Experience">
+        <div class="hero-sticky">
+          <!-- Canvas for 60fps frame sequence scrubbing -->
+          <canvas
+            class="hero-canvas"
+            role="img"
+            aria-label="Cinematic scroll sequence of Aurelia Hotel's red laterite cliff in Varkala"
+          ></canvas>
+
+          <!-- Atmosphere gradient -->
+          <div class="hero-gradient-overlay" aria-hidden="true"></div>
+
+          <!-- Staggered Progress Text Overlays -->
+          <div class="hero-steps" aria-live="polite">
+            <div class="hero-step active">
+              <span class="eyebrow" style="color: var(--c-seafoam);">Varkala, Kerala · Arabian Sea</span>
+              <h1>Where the cliff meets the sea</h1>
+            </div>
+
+            <div class="hero-step">
+              <span class="eyebrow" style="color: var(--c-seafoam);">Perched at 30 Metres</span>
+              <h1>Rooms with a horizon view</h1>
+            </div>
+
+            <div class="hero-step">
+              <span class="eyebrow" style="color: var(--c-seafoam);">Golden Hour Sanctuary</span>
+              <h1>Sunset on the terrace</h1>
+              <a href="#rooms" class="btn btn-gold" style="margin-top: 0.5rem;">
+                <span>Explore Accommodation</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Scroll Indicator -->
+          <div class="hero-scroll-hint" aria-hidden="true">
+            <span>Scroll to Experience</span>
+            <div class="hero-scroll-line"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 Layered SVG Waves Divider (Ocean swell transition) -->
+      <div class="waves-divider" aria-hidden="true">
+        <svg
+          class="waves-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 24 150 28"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <path
+              id="wavePath"
+              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+            />
+          </defs>
+          <g>
+            <use href="#wavePath" x="48" y="0" class="wave-layer wave-layer-1" />
+            <use href="#wavePath" x="48" y="3" class="wave-layer wave-layer-2" />
+            <use href="#wavePath" x="48" y="5" class="wave-layer wave-layer-3" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- ── 5. SECTION 01: OUR STORY ────────────────────────────── -->
+      <section id="about" class="section section-cream" aria-labelledby="story-title">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-watermark" aria-hidden="true">01</span>
+            <span class="eyebrow">Our Story</span>
+            <h2 id="story-title">A cliff-top haven above the Arabian Sea</h2>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-text">
+              <p>
+                Aurelia Hotel sits on the edge of Varkala's ancient red laterite cliffs, 30 metres
+                above the turquoise waters of the Arabian Sea. Here, the air smells of sea salt,
+                coconut groves, and cardamom, and the horizon belongs purely to you.
+              </p>
+              <p>
+                Designed with native Keralan craftsmanship — exposed laterite stone, hand-turned
+                teak timber, and breathable linen textiles — every space is conceived as a quiet,
+                unhurried conversation between the cliff and the ocean below.
+              </p>
+
+              <div class="about-stats">
+                <div class="stat-item">
+                  <span class="stat-value">30m</span>
+                  <span class="stat-label">Above Sea Level</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">18</span>
+                  <span class="stat-label">Ocean-View Suites</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value">5★</span>
+                  <span class="stat-label">Cliff-Edge Dining</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-img-frame">
+              <img
+                src="./images/about.webp"
+                alt="Aurelia Hotel architecture perched atop the red cliffs of Varkala overlooking the ocean"
+                class="about-img"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 6. SECTION 02: ROOMS & SUITES ───────────────────────── -->
+      <section id="rooms" class="section section-sand" aria-labelledby="rooms-title">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-watermark" aria-hidden="true">02</span>
+            <span class="eyebrow">Accommodation</span>
+            <h2 id="rooms-title">Rooms &amp; Ocean Suites</h2>
+            <p class="subtitle">Every room is an unobstructed front-row seat to the Arabian Sea.</p>
+          </div>
+
+          <div class="rooms-grid">
+            <!-- Room 1: Cliff Suite -->
+            <article class="room-card" aria-label="Cliff Suite">
+              <div class="room-img-wrap">
+                <img
+                  src="./images/room-cliff-suite.webp"
+                  alt="Cliff Suite with private infinity plunge pool and ocean sunset view"
+                  class="room-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="room-badge">Most Popular</span>
+              </div>
+              <div class="room-content">
+                <h3>Cliff Suite</h3>
+                <p>
+                  Floor-to-ceiling glass, a private infinity plunge pool, and a 180° panorama of the
+                  sunset. Wake up to the edge of the world.
+                </p>
+                <div class="room-amenities">
+                  <span class="amenity-tag">Private Plunge Pool</span>
+                  <span class="amenity-tag">King Bed</span>
+                  <span class="amenity-tag">Ocean Balcony</span>
+                </div>
+                <div class="room-footer">
+                  <div>
+                    <span class="room-price">₹18,500</span>
+                    <span class="room-price-tax">/ night + taxes</span>
+                  </div>
+                  <a
+                    href="https://wa.me/916369403544?text=Hello%20Aurelia%20Hotel!%20I'm%20interested%20in%20reserving%20the%20Cliff%20Suite."
+                    target="_blank"
+                    rel="noopener"
+                    class="btn btn-primary"
+                    aria-label="Enquire about Cliff Suite on WhatsApp"
+                  >
+                    <span>Enquire</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Room 2: Heritage Room -->
+            <article class="room-card" aria-label="Heritage Room">
+              <div class="room-img-wrap">
+                <img
+                  src="./images/room-heritage.webp"
+                  alt="Heritage Room with exposed laterite stone and freestanding copper bathtub"
+                  class="room-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="room-content">
+                <h3>Heritage Room</h3>
+                <p>
+                  Exposed red laterite walls, hand-turned teak furniture, and a freestanding copper
+                  bathtub framing the evening sunset perfectly.
+                </p>
+                <div class="room-amenities">
+                  <span class="amenity-tag">Copper Soaking Tub</span>
+                  <span class="amenity-tag">Queen Bed</span>
+                  <span class="amenity-tag">Garden Terrace</span>
+                </div>
+                <div class="room-footer">
+                  <div>
+                    <span class="room-price">₹9,800</span>
+                    <span class="room-price-tax">/ night + taxes</span>
+                  </div>
+                  <a
+                    href="https://wa.me/916369403544?text=Hello%20Aurelia%20Hotel!%20I'm%20interested%20in%20reserving%20the%20Heritage%20Room."
+                    target="_blank"
+                    rel="noopener"
+                    class="btn btn-primary"
+                    aria-label="Enquire about Heritage Room on WhatsApp"
+                  >
+                    <span>Enquire</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Room 3: Garden Villa -->
+            <article class="room-card" aria-label="Garden Villa">
+              <div class="room-img-wrap">
+                <img
+                  src="./images/room-garden-villa.webp"
+                  alt="Garden Villa cottage set among tropical palms and outdoor stone shower"
+                  class="room-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="room-content">
+                <h3>Garden Villa</h3>
+                <p>
+                  A secluded private cottage set inside a fragrant spice garden, steps from the
+                  cliff-edge infinity pool with an outdoor stone rain shower.
+                </p>
+                <div class="room-amenities">
+                  <span class="amenity-tag">Private Spice Garden</span>
+                  <span class="amenity-tag">Outdoor Rain Shower</span>
+                  <span class="amenity-tag">King Bed</span>
+                </div>
+                <div class="room-footer">
+                  <div>
+                    <span class="room-price">₹12,500</span>
+                    <span class="room-price-tax">/ night + taxes</span>
+                  </div>
+                  <a
+                    href="https://wa.me/916369403544?text=Hello%20Aurelia%20Hotel!%20I'm%20interested%20in%20reserving%20the%20Garden%20Villa."
+                    target="_blank"
+                    rel="noopener"
+                    class="btn btn-primary"
+                    aria-label="Enquire about Garden Villa on WhatsApp"
+                  >
+                    <span>Enquire</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Room 4: Sea Breeze Room -->
+            <article class="room-card" aria-label="Sea Breeze Room">
+              <div class="room-img-wrap">
+                <img
+                  src="./images/room-sea-breeze.webp"
+                  alt="Sea Breeze Room with light airy coastal design and sea-view balcony"
+                  class="room-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="room-badge">Best Value</span>
+              </div>
+              <div class="room-content">
+                <h3>Sea Breeze Room</h3>
+                <p>
+                  Light, airy, and positioned to catch the evening coastal winds, featuring sheer
+                  billowing curtains and a private ocean balcony.
+                </p>
+                <div class="room-amenities">
+                  <span class="amenity-tag">Sea-View Balcony</span>
+                  <span class="amenity-tag">Queen Bed</span>
+                  <span class="amenity-tag">Coastal Trade Winds</span>
+                </div>
+                <div class="room-footer">
+                  <div>
+                    <span class="room-price">₹6,500</span>
+                    <span class="room-price-tax">/ night + taxes</span>
+                  </div>
+                  <a
+                    href="https://wa.me/916369403544?text=Hello%20Aurelia%20Hotel!%20I'm%20interested%20in%20reserving%20the%20Sea%20Breeze%20Room."
+                    target="_blank"
+                    rel="noopener"
+                    class="btn btn-primary"
+                    aria-label="Enquire about Sea Breeze Room on WhatsApp"
+                  >
+                    <span>Enquire</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 7. SECTION 03: SANCTUARY AMENITIES ──────────────────── -->
+      <section id="amenities" class="section section-golden" aria-labelledby="amenities-title">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-watermark" aria-hidden="true">03</span>
+            <span class="eyebrow">The Sanctuary</span>
+            <h2 id="amenities-title">Designed for Stillness &amp; Sea</h2>
+            <p class="subtitle">Carefully curated spaces to slow down time.</p>
+          </div>
+
+          <div class="amenities-grid">
+            <div class="amenity-card">
+              <div class="amenity-icon" aria-hidden="true">🌊</div>
+              <h3>Infinity Pool</h3>
+              <p>Cliff-edge pool merging seamlessly into the blue Arabian Sea horizon at sunset.</p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon" aria-hidden="true">🧘</div>
+              <h3>Ayurvedic Spa</h3>
+              <p>Traditional Keralan wellness rituals using organic cold-pressed herbal oils.</p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon" aria-hidden="true">🍃</div>
+              <h3>Spice Garden</h3>
+              <p>Walk among flowering cardamom, wild black pepper vines, and sweet vanilla.</p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon" aria-hidden="true">🚤</div>
+              <h3>Coastal Journeys</h3>
+              <p>Guided sea kayaking, quiet cove snorkelling, and private sunset boat sails.</p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon" aria-hidden="true">📚</div>
+              <h3>Library Lounge</h3>
+              <p>A quiet retreat with curated art volumes, regional poetry, and ocean-facing daybeds.</p>
+            </div>
+            <div class="amenity-card">
+              <div class="amenity-icon" aria-hidden="true">🍽️</div>
+              <h3>Rooftop Dining</h3>
+              <p>Farm-to-table coastal delicacies cooked over open fire under open twilight skies.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 8. SECTION 04: DINING ───────────────────────────────── -->
+      <section id="dining" class="section section-dark" aria-labelledby="dining-title">
+        <!-- Floating fireflies canvas -->
+        <canvas class="fireflies-canvas" aria-hidden="true"></canvas>
+
+        <div class="container" style="position: relative; z-index: 2;">
+          <div class="section-header">
+            <span class="section-watermark" aria-hidden="true">04</span>
+            <span class="eyebrow">Culinary Coast</span>
+            <h2 id="dining-title">Eat with the sea below you</h2>
+            <p class="subtitle">Celebrating the rich Malabar coastline and fresh ocean catch.</p>
+          </div>
+
+          <div class="dining-grid">
+            <div class="dining-img-frame">
+              <img
+                src="./images/dining.webp"
+                alt="Open-air twilight cliff dining restaurant at Aurelia Hotel overlooking Arabian sea sunset"
+                class="dining-img"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+            <div class="dining-text">
+              <p style="font-size: 1.15rem; color: var(--c-seafoam); line-height: 1.8;">
+                Our kitchen honours the time-honoured flavours of southern Kerala — fresh catch from
+                the morning catamaran boats, coconut curries gently stewed with tamarind, and cold-climate
+                wines chosen to complement the ocean breeze.
+              </p>
+
+              <div class="dining-highlights">
+                <div class="dining-item">
+                  <div class="dining-dot" aria-hidden="true"></div>
+                  <div>
+                    <h4>The Cliff Table</h4>
+                    <p style="color: var(--c-seafoam); opacity: 0.85;">
+                      Fine tasting menus served directly at the cliff’s edge with candlelit sea views.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="dining-item">
+                  <div class="dining-dot" aria-hidden="true"></div>
+                  <div>
+                    <h4>Tide Café</h4>
+                    <p style="color: var(--c-seafoam); opacity: 0.85;">
+                      All-day open terrace serving artisanal South Indian filter coffee, coconut pancakes, and tropical fruit bowls.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="dining-item">
+                  <div class="dining-dot" aria-hidden="true"></div>
+                  <div>
+                    <h4>Sundowner Bar</h4>
+                    <p style="color: var(--c-seafoam); opacity: 0.85;">
+                      Botanical cocktails infused with local spices, served as the sun melts into the Arabian Sea.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 9. SECTION 05: BENTO GALLERY ("A GLIMPSE OF AURELIA") ── -->
+      <section id="gallery" class="section section-cream" aria-labelledby="gallery-title">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-watermark" aria-hidden="true">05</span>
+            <span class="eyebrow">Visual Narrative</span>
+            <h2 id="gallery-title">A Glimpse of Aurelia</h2>
+            <p class="subtitle">Atmospheric vignettes of our boutique cliff haven.</p>
+          </div>
+
+          <!-- Sliding Category Filter -->
+          <div class="gallery-filters" role="tablist" aria-label="Filter gallery spaces">
+            <div class="gallery-filter-pill" aria-hidden="true"></div>
+            <button class="gallery-filter-btn active" data-category="all" role="tab" aria-selected="true">All</button>
+            <button class="gallery-filter-btn" data-category="rooms" role="tab" aria-selected="false">Rooms</button>
+            <button class="gallery-filter-btn" data-category="dining" role="tab" aria-selected="false">Dining</button>
+            <button class="gallery-filter-btn" data-category="wellness" role="tab" aria-selected="false">Wellness</button>
+            <button class="gallery-filter-btn" data-category="views" role="tab" aria-selected="false">Views</button>
+          </div>
+
+          <!-- Bento Grid (Balanced 7 items, 0 orphans) -->
+          <div class="bento-grid">
+            <!-- Tile 1: Arched Hero (Infinity pool) -->
+            <div class="bento-tile bento-tile-1" data-category="wellness" role="button" tabindex="0" aria-label="View Infinity Pool photo">
+              <img src="./images/gallery-1.webp" alt="Cliff-edge infinity swimming pool merging with Arabian Sea horizon at dusk" class="bento-img" loading="lazy">
+              <div class="bento-glare" aria-hidden="true"></div>
+              <div class="bento-caption">
+                <div>
+                  <div class="bento-caption-title">Infinity Pool at Dusk</div>
+                  <div class="bento-caption-cat">Wellness · Horizon</div>
+                </div>
+                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
+              </div>
+            </div>
+
+            <!-- Tile 2: Cliff Suite -->
+            <div class="bento-tile bento-tile-2" data-category="rooms" role="button" tabindex="0" aria-label="View Cliff Suite photo">
+              <img src="./images/room-cliff-suite.webp" alt="Cliff Suite bedroom opening onto private sunset plunge pool" class="bento-img" loading="lazy">
+              <div class="bento-glare" aria-hidden="true"></div>
+              <div class="bento-caption">
+                <div>
+                  <div class="bento-caption-title">The Cliff Suite</div>
+                  <div class="bento-caption-cat">Rooms · Oceanfront</div>
+                </div>
+                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
+              </div>
+            </div>
+
+            <!-- Tile 3: Cliff Dining -->
+            <div class="bento-tile bento-tile-3" data-category="dining" role="button" tabindex="0" aria-label="View Cliff Dining photo">
+              <img src="./images/gallery-3.webp" alt="Candlelit rooftop dining terrace overlooking the ocean" class="bento-img" loading="lazy">
+              <div class="bento-glare" aria-hidden="true"></div>
+              <div class="bento-caption">
+                <div>
+                  <div class="bento-caption-title">Cliffside Dining</div>
+                  <div class="bento-caption-cat">Dining · Evening</div>
+                </div>
+                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
+              </div>
+            </div>
+
+            <!-- Tile 4: Tall Arched Spa -->
+            <div class="bento-tile bento-tile-4" data-category="wellness" role="button" tabindex="0" aria-label="View Ayurvedic Spa photo">
+              <img src="./images/gallery-5.webp" alt="Ayurvedic spa treatment room with traditional wooden massage table and flower bowl" class="bento-img" loading="lazy">
+              <div class="bento-glare" aria-hidden="true"></div>
+              <div class="bento-caption">
+                <div>
+                  <div class="bento-caption-title">Ayurvedic Sanctuary</div>
+                  <div class="bento-caption-cat">Wellness · Spa</div>
+                </div>
+                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
+              </div>
+            </div>
+
+            <!-- Tile 5: Wide Sunrise -->
+            <div class="bento-tile bento-tile-5" data-category="views" role="button" tabindex="0" aria-label="View Varkala Sunrise photo">
+              <img src="./images/gallery-4.webp" alt="Panoramic scenic view of Varkala red cliff coastline at golden sunrise" class="bento-img" loading="lazy">
+              <div class="bento-glare" aria-hidden="true"></div>
+              <div class="bento-caption">
+                <div>
+                  <div class="bento-caption-title">Varkala Cliff Sunrise</div>
+                  <div class="bento-caption-cat">Views · Coastal Panorama</div>
+                </div>
+                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
+              </div>
+            </div>
+
+            <!-- Tile 6: Heritage Sanctuary -->
+            <div class="bento-tile bento-tile-6" data-category="rooms" role="button" tabindex="0" aria-label="View Heritage Room photo">
+              <img src="./images/gallery-2.webp" alt="Kerala heritage hotel room interior with laterite walls and copper bathtub" class="bento-img" loading="lazy">
+              <div class="bento-glare" aria-hidden="true"></div>
+              <div class="bento-caption">
+                <div>
+                  <div class="bento-caption-title">Heritage Room</div>
+                  <div class="bento-caption-cat">Rooms · Laterite</div>
+                </div>
+                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
+              </div>
+            </div>
+
+            <!-- Tile 7: Terrace Breakfast -->
+            <div class="bento-tile bento-tile-7" data-category="dining" role="button" tabindex="0" aria-label="View Breakfast Spread photo">
+              <img src="./images/gallery-6.webp" alt="Delicious tropical breakfast feast spread on sea-facing balcony" class="bento-img" loading="lazy">
+              <div class="bento-glare" aria-hidden="true"></div>
+              <div class="bento-caption">
+                <div>
+                  <div class="bento-caption-title">Terrace Breakfast</div>
+                  <div class="bento-caption-cat">Dining · Morning</div>
+                </div>
+                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cinematic Lightbox Modal -->
+      <div class="lightbox-overlay" role="dialog" aria-modal="true" aria-label="Cinematic Photo Lightbox">
+        <div class="lightbox-header">
+          <span class="lightbox-counter">01 / 07</span>
+          <button class="lightbox-close" aria-label="Close Lightbox">✕</button>
+        </div>
+
+        <div class="lightbox-stage">
+          <button class="lightbox-arrow lightbox-prev" aria-label="Previous photo">←</button>
+          <img src="" alt="" class="lightbox-main-img" />
+          <button class="lightbox-arrow lightbox-next" aria-label="Next photo">→</button>
+        </div>
+
+        <div class="lightbox-footer">
+          <div class="lightbox-caption-text"></div>
+          <div class="lightbox-thumbs" aria-label="Lightbox thumbnails"></div>
+        </div>
+      </div>
+
+      <!-- ── 10. SECTION 06: GUEST VOICES (3D CAROUSEL) ─────────── -->
+      <section id="voices" class="section section-sand voices-section" aria-labelledby="voices-title">
+        <div class="container" style="text-align: center;">
+          <div class="section-header">
+            <span class="section-watermark" aria-hidden="true">06</span>
+            <span class="eyebrow">Guest Voices</span>
+            <h2 id="voices-title">What Our Guests Say</h2>
+            <p class="subtitle">Memories written from the edge of the Arabian Sea.</p>
+          </div>
+
+          <!-- Aggregate Rating Badge with animated count-up -->
+          <div class="aggregate-badge" aria-label="Overall guest rating: 4.9 out of 5">
+            <span class="aggregate-score">4.9</span>
+            <span class="aggregate-stars" aria-hidden="true">★★★★★</span>
+            <div class="aggregate-source">
+              <span>Google 4.9 ★</span> &nbsp;·&nbsp;
+              <span>TripAdvisor 5.0 ★</span>
+            </div>
+          </div>
+
+          <!-- Draggable Stacked 3D Carousel -->
+          <div class="voices-stage" aria-label="Guest reviews carousel">
+            <!-- Review 1 -->
+            <article class="voices-card card-active" aria-label="Review by Priya Nair">
+              <span class="voices-watermark" aria-hidden="true">“</span>
+              <div class="voices-stars" aria-label="5 stars rating">
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+              </div>
+              <blockquote class="voices-quote">
+                “Waking up to the cliff view in the Suite was genuinely life-changing. The Ayurvedic
+                massage at dusk with the sound of breaking waves below was the finest I’ve had anywhere in Kerala.”
+              </blockquote>
+              <footer class="voices-author">
+                <div class="voices-author-left">
+                  <div class="voices-avatar">PN</div>
+                  <div style="text-align: left;">
+                    <h4 style="font-size: 1.05rem;">Priya Nair</h4>
+                    <p style="font-size: 0.8rem; color: var(--c-text-muted);">Bangalore, India</p>
+                  </div>
+                </div>
+                <span class="voices-verified-tag">✓ Verified Stay</span>
+              </footer>
+            </article>
+
+            <!-- Review 2 -->
+            <article class="voices-card card-next" aria-label="Review by James & Sophie">
+              <span class="voices-watermark" aria-hidden="true">“</span>
+              <div class="voices-stars" aria-label="5 stars rating">
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+              </div>
+              <blockquote class="voices-quote">
+                “We honeymooned here and cannot imagine a more perfect coastal sanctuary. The cliff-edge
+                candlelit dinners and the serene infinity pool were pure, unforgettable magic.”
+              </blockquote>
+              <footer class="voices-author">
+                <div class="voices-author-left">
+                  <div class="voices-avatar">JS</div>
+                  <div style="text-align: left;">
+                    <h4 style="font-size: 1.05rem;">James &amp; Sophie</h4>
+                    <p style="font-size: 0.8rem; color: var(--c-text-muted);">London, United Kingdom</p>
+                  </div>
+                </div>
+                <span class="voices-verified-tag">✓ Verified Stay</span>
+              </footer>
+            </article>
+
+            <!-- Review 3 -->
+            <article class="voices-card card-prev" aria-label="Review by Arjun Menon">
+              <span class="voices-watermark" aria-hidden="true">“</span>
+              <div class="voices-stars" aria-label="5 stars rating">
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+                <span class="voices-star">★</span>
+              </div>
+              <blockquote class="voices-quote">
+                “The attention to detail is exceptional — from locally sourced Malabar breakfast to
+                the hand-crafted copper fittings. Aurelia sets a rare standard for boutique hospitality.”
+              </blockquote>
+              <footer class="voices-author">
+                <div class="voices-author-left">
+                  <div class="voices-avatar">AM</div>
+                  <div style="text-align: left;">
+                    <h4 style="font-size: 1.05rem;">Arjun Menon</h4>
+                    <p style="font-size: 0.8rem; color: var(--c-text-muted);">Dubai, UAE</p>
+                  </div>
+                </div>
+                <span class="voices-verified-tag">✓ Verified Stay</span>
+              </footer>
+            </article>
+          </div>
+
+          <!-- Carousel Controls with auto-advance progress line -->
+          <div class="voices-controls">
+            <div class="carousel-progress-track" aria-hidden="true">
+              <div class="carousel-progress-bar"></div>
+            </div>
+            <div class="voices-nav-btns">
+              <button class="carousel-arrow carousel-prev" aria-label="Previous review">←</button>
+              <button class="carousel-arrow carousel-next" aria-label="Next review">→</button>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--c-text-muted); opacity: 0.8;">
+              Sample guest reviews — for concept demonstration purposes
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 11. SECTION 07: LOCATION ────────────────────────────── -->
+      <section id="location" class="section section-cream" aria-labelledby="location-title">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-watermark" aria-hidden="true">07</span>
+            <span class="eyebrow">The Destination</span>
+            <h2 id="location-title">Perched in Varkala, Kerala</h2>
+            <p class="subtitle">Where the Arabian Sea kisses the ancient geological cliffs.</p>
+          </div>
+
+          <div class="location-grid">
+            <div class="location-info">
+              <p style="font-size: 1.15rem; margin-bottom: 1.5rem;">
+                Located along the cliff-top promenade in Varkala, Aurelia Hotel offers seclusion while
+                remaining within walking distance of local artisan cafés, Tibetan handicraft stalls, and peaceful beaches.
+              </p>
+              <ul style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+                <li><strong>📍 Address:</strong> Cliff Side, Varkala Beach Road, Kerala 695141</li>
+                <li><strong>🚆 Railway Station:</strong> 15 minutes drive (Varkala Sivagiri)</li>
+                <li><strong>✈️ Airport:</strong> 90 minutes drive (Trivandrum International Airport)</li>
+                <li><strong>🏖️ Beach Access:</strong> Private steps leading down to Varkala Sands</li>
+              </ul>
+
+              <a
+                href="https://maps.google.com/?q=Varkala+Cliff+Kerala+India"
+                target="_blank"
+                rel="noopener"
+                class="btn btn-outline"
+              >
+                <span>Open in Google Maps</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+
+            <div class="map-frame">
+              <iframe
+                title="Aurelia Hotel location in Varkala"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.123456789!2d76.715!3d8.733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwNDMnNTkuNiJOIDc2wrA0Myc1NC4wIkU!5e0!3m2!1sen!2sin!4v1600000000000"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 12. SECTION 08: FAQ ─────────────────────────────────── -->
+      <section id="faq" class="section section-sand" aria-labelledby="faq-title">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-watermark" aria-hidden="true">08</span>
+            <span class="eyebrow">Clarity</span>
+            <h2 id="faq-title">Frequently Asked Inquiries</h2>
+            <p class="subtitle">Everything you need to plan your retreat.</p>
+          </div>
+
+          <div class="faq-list">
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>How do I reach Aurelia Hotel?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  We are a 15-minute drive from Varkala Sivagiri Railway Station and 90 minutes from
+                  Trivandrum International Airport (TRV). Private chauffeured airport transfers are
+                  complimentary for guests reserving the Cliff Suite.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>What are the check-in and check-out timings?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  Check-in begins from 2:00 PM, and check-out is by 11:00 AM. Early check-in or late
+                  check-out is accommodated subject to villa availability upon prior request.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Do you arrange direct bookings and special celebrations?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  Yes, direct bookings made via WhatsApp or our concierge enquiry receive our best
+                  guaranteed rate, welcome Ayurvedic refreshments, and custom arrangements for anniversaries or private dining.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Is the property child and family friendly?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  Certainly. We offer private Garden Villas with connecting rooms, infant amenities,
+                  and gentle beach activities suitable for all ages.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>What is the cancellation policy?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  Reservations can be rescheduled or cancelled without penalty up to 7 days before your
+                  arrival date. Details are confirmed directly with our reservations team.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 13. SECTION 09: CONTACT & ENQUIRY ───────────────────── -->
+      <section id="contact" class="section section-sunset" aria-labelledby="contact-title">
+        <div class="container" style="text-align: center;">
+          <div class="section-header">
+            <span class="section-watermark" aria-hidden="true">09</span>
+            <span class="eyebrow">Direct Reservations</span>
+            <h2 id="contact-title">We’d Love to Hear From You</h2>
+            <p class="subtitle">Our reservations desk assists with availability, private transfers, and special requests.</p>
+          </div>
+
+          <!-- Live Status Chip with Pulse & IST Time -->
+          <div class="contact-status-chip">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-chip-time">Concierge Desk Active · Varkala, India</span>
+            <span style="opacity: 0.6;">· Replies within an hour</span>
+          </div>
+
+          <!-- 3 Perfectly Aligned Frosted Glass Action Cards -->
+          <div class="contact-cards-grid">
+            <!-- Card 1: WhatsApp -->
+            <div class="contact-action-card">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                <div class="card-icon-circle">💬</div>
+                <h3>WhatsApp Concierge</h3>
+                <p style="font-size: 0.9rem; color: var(--c-text-muted);">
+                  Immediate responses for reservations, villa availability, and airport taxi arrangements.
+                </p>
+              </div>
+              <div>
+                <a
+                  href="https://wa.me/916369403544?text=Hello%20Aurelia,%20I'd%20like%20to%20check%20availability%20for%20my%20stay."
+                  target="_blank"
+                  rel="noopener"
+                  class="btn btn-gold"
+                  style="width: 100%;"
+                >
+                  <span>Chat on WhatsApp</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Card 2: Email -->
+            <div class="contact-action-card">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                <div class="card-icon-circle">✉️</div>
+                <h3>Email Concierge</h3>
+                <p style="font-size: 0.9rem; color: var(--c-text-muted);">
+                  Send your itinerary, group reservations, or custom retreat proposals directly to our team.
+                </p>
+              </div>
+              <div class="contact-card-actions">
+                <a
+                  href="mailto:hello@aureliahotel.com?subject=Enquiry%20-%20Aurelia%20Hotel%20Varkala"
+                  class="btn btn-primary"
+                  style="flex-grow: 1;"
+                >
+                  Draft Email
+                </a>
+                <button
+                  class="btn-copy"
+                  data-copy="hello@aureliahotel.com"
+                  title="Copy email to clipboard"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3: Direct Phone -->
+            <div class="contact-action-card">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                <div class="card-icon-circle">📞</div>
+                <h3>Direct Phone</h3>
+                <p style="font-size: 0.9rem; color: var(--c-text-muted);">
+                  Speak directly with our front desk managers for instantaneous room inquiries.
+                </p>
+              </div>
+              <div class="contact-card-actions">
+                <a href="tel:+916369403544" class="btn btn-primary" style="flex-grow: 1;">
+                  Tap to Call
+                </a>
+                <button
+                  class="btn-copy"
+                  data-copy="+91 63694 03544"
+                  title="Copy phone number to clipboard"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compact Enquiry Form -->
+          <div class="enquiry-form-wrap">
+            <h3 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 0.5rem;">
+              Request Stay Availability
+            </h3>
+            <p style="color: var(--c-text-muted); font-size: 0.95rem;">
+              Submit your desired dates and our reservations manager will get back to you via WhatsApp or Email.
+            </p>
+
+            <form class="enquiry-form" novalidate>
+              <div class="enquiry-form-grid">
+                <!-- Name -->
+                <div class="form-floating">
+                  <input type="text" id="name" placeholder=" " required />
+                  <label for="name">Your Full Name</label>
+                </div>
+
+                <!-- Phone / WhatsApp -->
+                <div class="form-floating">
+                  <input type="tel" id="phone" placeholder=" " required />
+                  <label for="phone">Phone / WhatsApp Number</label>
+                </div>
+
+                <!-- Check-in Date -->
+                <div class="form-floating">
+                  <input type="date" id="checkin" required />
+                  <label for="checkin">Check-in Date</label>
+                </div>
+
+                <!-- Check-out Date -->
+                <div class="form-floating">
+                  <input type="date" id="checkout" required />
+                  <label for="checkout">Check-out Date</label>
+                </div>
+
+                <!-- Room Selection -->
+                <div class="form-floating">
+                  <select id="room-select" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="Cliff Suite (₹18,500/night)">Cliff Suite (₹18,500 / night)</option>
+                    <option value="Garden Villa (₹12,500/night)">Garden Villa (₹12,500 / night)</option>
+                    <option value="Heritage Room (₹9,800/night)">Heritage Room (₹9,800 / night)</option>
+                    <option value="Sea Breeze Room (₹6,500/night)">Sea Breeze Room (₹6,500 / night)</option>
+                  </select>
+                  <label for="room-select">Select Preferred Accommodation</label>
+                </div>
+
+                <!-- Interactive Guest Stepper -->
+                <div class="stepper-wrap">
+                  <span style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-text-muted);">
+                    Guests
+                  </span>
+                  <div style="display: flex; align-items: center; gap: 0.85rem;">
+                    <button type="button" class="stepper-btn stepper-minus" aria-label="Decrease guests">−</button>
+                    <span class="stepper-value" style="font-weight: 600; min-width: 70px;">2 Guests</span>
+                    <button type="button" class="stepper-btn stepper-plus" aria-label="Increase guests">+</button>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group-full" style="margin-top: 1rem;">
+                  <button type="submit" class="btn btn-gold btn-submit-morph" style="width: 100%; padding: 1.1rem;">
+                    <span>Submit Reservation Request</span>
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── 14. FOOTER ────────────────────────────────────────────── -->
+    <footer class="footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3>AURELIA HOTEL</h3>
+            <p style="color: var(--c-sand); opacity: 0.8; font-size: 0.95rem;">
+              Perched on the edge of forever. An unhurried boutique cliff resort on the Malabar coastline of Varkala, Kerala.
+            </p>
+            <div style="margin-top: 1.5rem;">
+              <span class="demo-badge">Sample Hotel Concept Website</span>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="color: var(--c-sand); margin-bottom: 1.25rem;">Sanctuary</h4>
+            <ul style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+              <li><a href="#about" class="link-editorial">The Story</a></li>
+              <li><a href="#rooms" class="link-editorial">Ocean Rooms</a></li>
+              <li><a href="#amenities" class="link-editorial">Amenities</a></li>
+              <li><a href="#dining" class="link-editorial">Cliff Dining</a></li>
+              <li><a href="#gallery" class="link-editorial">Gallery</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 style="color: var(--c-sand); margin-bottom: 1.25rem;">Concierge</h4>
+            <ul style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+              <li><a href="tel:+916369403544" class="link-editorial">+91 63694 03544</a></li>
+              <li><a href="mailto:hello@aureliahotel.com" class="link-editorial">hello@aureliahotel.com</a></li>
+              <li><a href="https://maps.google.com/?q=Varkala+Cliff" target="_blank" rel="noopener" class="link-editorial">Location Directions</a></li>
+              <li><a href="#faq" class="link-editorial">Guest FAQ</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 style="color: var(--c-sand); margin-bottom: 1.25rem;">Social</h4>
+            <ul style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+              <li><a href="https://instagram.com" target="_blank" rel="noopener" class="link-editorial">Instagram</a></li>
+              <li><a href="https://facebook.com" target="_blank" rel="noopener" class="link-editorial">Facebook</a></li>
+              <li><a href="https://tripadvisor.com" target="_blank" rel="noopener" class="link-editorial">TripAdvisor</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2026 Aurelia Hotel, Varkala. All rights reserved. Crafted for luxury hospitality demonstration.</p>
+          <div style="display: flex; gap: 1.5rem;">
+            <a href="#" class="link-editorial">Privacy Policy</a>
+            <a href="#" class="link-editorial">Terms of Stay</a>
+            <a href="#" class="link-editorial">Sitemap</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ── 15. FLOATING WHATSAPP BUTTON & SINGLE 8S TOOLTIP ──────── -->
+    <div class="whatsapp-float-wrap">
+      <div class="whatsapp-tooltip" role="tooltip">Chat with our Concierge</div>
+      <a
+        href="https://wa.me/916369403544?text=Hello%20Aurelia%20Hotel!%20I'm%20visiting%20your%20website%20and%20would%20love%20to%20learn%20more."
+        target="_blank"
+        rel="noopener"
+        class="whatsapp-float-btn"
+        aria-label="Contact Aurelia Hotel on WhatsApp"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.155.57 4.179 1.564 5.926l-1.564 5.719 5.864-1.538c1.701.933 3.655 1.469 5.736 1.469 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- ── 16. COPIED TO CLIPBOARD TOAST ─────────────────────────── -->
+    <div class="toast-notice" role="status" aria-live="polite">Copied to clipboard</div>
+
+    <!-- JavaScript Engine -->
+    <script type="module" src="./script.js"></script>
   </body>
 </html>
