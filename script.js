@@ -50,6 +50,13 @@ const AURELIA_CONFIG = {
 const clamp = (val, min, max) => Math.min(max, Math.max(min, val));
 const lerp = (a, b, t) => a + (b - a) * t;
 const padNum = (num, len = 4) => String(num).padStart(len, '0');
+const debounce = (fn, delay = 100) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+};
 
 /* ── 3. TIME-OF-DAY AMBIENT SCROLL DRIVER ────────────────────── */
 function initTimeOfDayScroll() {
@@ -353,179 +360,13 @@ function initHeroCanvas() {
   updateScrollProgress();
 }
 
-/* ── 6. BENTO GALLERY & CINEMATIC LIGHTBOX ────────────────────── */
-function initBentoGallery() {
-  const tiles = document.querySelectorAll('.bento-tile');
-  const filterBtns = document.querySelectorAll('.gallery-filter-btn');
-  const filterPill = document.querySelector('.gallery-filter-pill');
-
-  // 1. Sliding Filter Pill
-  const updateFilterPill = (btn) => {
-    if (!filterPill || !btn) return;
-    const btnRect = btn.getBoundingClientRect();
-    const parentRect = btn.parentElement.getBoundingClientRect();
-    filterPill.style.left = `${btnRect.left - parentRect.left}px`;
-    filterPill.style.width = `${btnRect.width}px`;
-  };
-
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-      updateFilterPill(btn);
-
-      const category = btn.getAttribute('data-category');
-      tiles.forEach((tile) => {
-        const tileCat = tile.getAttribute('data-category');
-        const match = category === 'all' || tileCat === category;
-        tile.classList.toggle('filtered-out', !match);
-      });
-    });
-  });
-
-  const activeBtn = document.querySelector('.gallery-filter-btn.active') || filterBtns[0];
-  if (activeBtn) updateFilterPill(activeBtn);
-
-  // 2. 3D Tilt with Specular Moving Glare (Desktop only)
-  if (window.matchMedia('(min-width: 1025px)').matches) {
-    tiles.forEach((tile) => {
-      const glare = tile.querySelector('.bento-glare');
-      
-      tile.addEventListener('mousemove', (e) => {
-        const rect = tile.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const xPct = (x / rect.width - 0.5);
-        const yPct = (y / rect.height - 0.5);
-
-        const rotateX = -yPct * AURELIA_CONFIG.gallery.maxTiltDeg;
-        const rotateY = xPct * AURELIA_CONFIG.gallery.maxTiltDeg;
-
-        tile.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-
-        if (glare) {
-          tile.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
-          tile.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
-        }
-      });
-
-      tile.addEventListener('mouseleave', () => {
-        tile.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-      });
-    });
-  }
-
-  // 3. Cinematic Lightbox with Swipe, Keyboard & Thumbnails
-  const lightbox = document.querySelector('.lightbox-overlay');
-  if (!lightbox) return;
-
-  const mainImg = lightbox.querySelector('.lightbox-main-img');
-  const captionText = lightbox.querySelector('.lightbox-caption-text');
-  const counter = lightbox.querySelector('.lightbox-counter');
-  const closeBtn = lightbox.querySelector('.lightbox-close');
-  const prevBtn = lightbox.querySelector('.lightbox-prev');
-  const nextBtn = lightbox.querySelector('.lightbox-next');
-  const thumbsContainer = lightbox.querySelector('.lightbox-thumbs');
-
-  // Build gallery data from tiles
-  const galleryData = Array.from(tiles).map((t) => ({
-    src: t.querySelector('img').getAttribute('src'),
-    title: t.querySelector('.bento-caption-title')?.textContent || 'Aurelia Hotel',
-    alt: t.querySelector('img').getAttribute('alt') || '',
-  }));
-
-  let currentIndex = 0;
-
-  // Build thumbnails
-  if (thumbsContainer) {
-    thumbsContainer.innerHTML = '';
-    galleryData.forEach((item, idx) => {
-      const thumb = document.createElement('div');
-      thumb.className = `lightbox-thumb ${idx === 0 ? 'active' : ''}`;
-      thumb.innerHTML = `<img src="${item.src}" alt="${item.alt}" loading="lazy">`;
-      thumb.addEventListener('click', () => showLightboxIndex(idx));
-      thumbsContainer.appendChild(thumb);
-    });
-  }
-
-  const showLightboxIndex = (index) => {
-    currentIndex = clamp(index, 0, galleryData.length - 1);
-    const item = galleryData[currentIndex];
-    if (!item) return;
-
-    if (mainImg) mainImg.src = item.src;
-    if (captionText) captionText.textContent = item.title;
-    if (counter) counter.textContent = `${padNum(currentIndex + 1, 2)} / ${padNum(galleryData.length, 2)}`;
-
-    // Update thumbnail active ring
-    const thumbs = thumbsContainer?.querySelectorAll('.lightbox-thumb');
-    thumbs?.forEach((th, i) => th.classList.toggle('active', i === currentIndex));
-  };
-
-  const openLightbox = (index) => {
-    showLightboxIndex(index);
-    lightbox.classList.add('active');
-    document.body.classList.add('scroll-locked');
-  };
-
-  const closeLightbox = () => {
-    lightbox.classList.remove('active');
-    document.body.classList.remove('scroll-locked');
-  };
-
-  // Expose lightbox trigger for 3D cylinder cards
-  window.openAureliaLightbox = (src, title) => {
-    let foundIdx = galleryData.findIndex((item) => item.src === src);
-    if (foundIdx === -1) {
-      galleryData.push({ src, title: title || 'Aurelia Hotel', alt: title || '' });
-      foundIdx = galleryData.length - 1;
-      if (thumbsContainer) {
-        const thumb = document.createElement('div');
-        thumb.className = 'lightbox-thumb';
-        thumb.innerHTML = `<img src="${src}" alt="${title}" loading="lazy">`;
-        thumb.addEventListener('click', () => showLightboxIndex(foundIdx));
-        thumbsContainer.appendChild(thumb);
-      }
-    }
-    openLightbox(foundIdx);
-  };
-
-  tiles.forEach((tile, idx) => {
-    tile.addEventListener('click', () => openLightbox(idx));
-  });
-
-  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-  if (prevBtn) prevBtn.addEventListener('click', () => showLightboxIndex(currentIndex - 1));
-  if (nextBtn) nextBtn.addEventListener('click', () => showLightboxIndex(currentIndex + 1));
-
-  // Keyboard navigation
-  window.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('active')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') showLightboxIndex(currentIndex - 1);
-    if (e.key === 'ArrowRight') showLightboxIndex(currentIndex + 1);
-  });
-
-  // Touch swipe support
-  let touchStartX = 0;
-  lightbox.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  lightbox.addEventListener('touchend', (e) => {
-    const diff = e.changedTouches[0].screenX - touchStartX;
-    if (Math.abs(diff) > 45) {
-      if (diff > 0) showLightboxIndex(currentIndex - 1);
-      else showLightboxIndex(currentIndex + 1);
-    }
-  }, { passive: true });
-}
-
-/* ── 6B. 3D CYLINDRICAL CURVED HORIZON REEL ─────────────────── */
-function initCylinderGallery() {
+/* ── 6. 3D HORIZON REEL GALLERY & CINEMATIC LIGHTBOX ───────────── */
+function init3DHorizonReelAndLightbox() {
   const container = document.getElementById('cylinderViewport');
   const track = document.getElementById('cylinderTrack');
-  if (!container || !track) return;
+  const prevBtn = document.getElementById('reelPrevBtn');
+  const nextBtn = document.getElementById('reelNextBtn');
+  const lightbox = document.querySelector('.lightbox-overlay');
 
   const HOTEL_IMAGES = [
     { src: './images/gallery-1.webp', title: 'Infinity Pool at Dusk', cat: 'Wellness · Horizon' },
@@ -540,83 +381,193 @@ function initCylinderGallery() {
     { src: './images/room-sea-breeze.webp', title: 'Sea Breeze Room', cat: 'Rooms · Balcony' }
   ];
 
+  if (!container || !track) return;
+
   const total = HOTEL_IMAGES.length;
-  const width = container.clientWidth || 1000;
-  const radius = Math.max(520, Math.min(760, width * 0.55));
+  let currentRotation = 0;
+  let targetRotation = 0;
+  let isHovered = false;
+  let isDragging = false;
+  let startX = 0;
+  let dragStartRot = 0;
+  let dragDistance = 0;
 
-  track.innerHTML = '';
-
-  HOTEL_IMAGES.forEach((item, i) => {
-    const angle = (i / total) * 360;
-    const card = document.createElement('div');
-    card.className = 'cylinder-card';
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', `View ${item.title}`);
-
-    // Inside cylinder geometry: ends curve toward viewer
-    card.style.transform = `rotateY(${angle}deg) translateZ(-${radius}px)`;
-
-    card.innerHTML = `
-      <img src="${item.src}" alt="${item.title}" loading="lazy" />
-      <div class="cylinder-card-glass">
-        <span class="cylinder-card-cat">${item.cat}</span>
-        <h4 class="cylinder-card-title">${item.title}</h4>
-      </div>
-    `;
-
-    card.addEventListener('click', () => {
-      if (typeof window.openAureliaLightbox === 'function') {
-        window.openAureliaLightbox(item.src, item.title);
-      }
-    });
-
-    track.appendChild(card);
-  });
-
-  // Pause track spin on hover
-  container.onmouseenter = () => {
-    track.style.animationPlayState = 'paused';
+  // Responsive radius calculation
+  const getRadius = () => {
+    const w = container.clientWidth || 1000;
+    if (w < 600) return 380;
+    if (w < 1024) return 520;
+    return Math.min(720, Math.max(580, w * 0.52));
   };
-  container.onmouseleave = () => {
-    track.style.animationPlayState = 'running';
-  };
-}
 
-/* ── 6C. GALLERY VIEW SWITCHER (BENTO GRID / 3D REEL) ───────── */
-function initGalleryViewSwitch() {
-  const switchBtns = document.querySelectorAll('.gallery-view-btn');
-  const cylinderView = document.getElementById('cylinderGalleryView');
-  const bentoView = document.getElementById('bentoGalleryView');
+  const renderCards = () => {
+    const radius = getRadius();
+    track.innerHTML = '';
 
-  if (!switchBtns.length || !cylinderView || !bentoView) return;
+    HOTEL_IMAGES.forEach((item, i) => {
+      const angle = (i / total) * 360;
+      const card = document.createElement('div');
+      card.className = 'cylinder-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `View ${item.title}`);
 
-  switchBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const view = btn.getAttribute('data-view');
-      switchBtns.forEach((b) => {
-        const isActive = b === btn;
-        b.classList.toggle('active', isActive);
-        b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      // 3D inward cylindrical placement
+      card.style.transform = `rotateY(${angle}deg) translateZ(-${radius}px)`;
+
+      card.innerHTML = `
+        <img src="${item.src}" alt="${item.title}" loading="lazy" decoding="async" />
+        <div class="cylinder-card-glass">
+          <span class="cylinder-card-cat">${item.cat}</span>
+          <h4 class="cylinder-card-title">${item.title}</h4>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        if (Math.abs(dragDistance) > 6) return;
+        openLightbox(i);
       });
 
-      if (view === 'cylinder') {
-        cylinderView.style.display = 'block';
-        bentoView.style.display = 'none';
-        initCylinderGallery();
-      } else {
-        cylinderView.style.display = 'block';
-        bentoView.style.display = 'block';
-        // Hide cylinder
-        cylinderView.style.display = 'none';
-        // Recalculate filter pill position
-        const activeFilterBtn = document.querySelector('.gallery-filter-btn.active');
-        if (activeFilterBtn) {
-          activeFilterBtn.click();
-        }
-      }
+      track.appendChild(card);
     });
+  };
+
+  renderCards();
+
+  window.addEventListener('resize', debounce(() => {
+    renderCards();
+  }, 150));
+
+  // 60fps Smooth animation loop
+  const speed = 0.16; // degrees per frame
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const tickReel = () => {
+    if (!isHovered && !isDragging && !isReducedMotion) {
+      targetRotation -= speed;
+    }
+    // Buttery interpolation towards target
+    currentRotation += (targetRotation - currentRotation) * 0.12;
+    track.style.transform = `rotateY(${currentRotation}deg)`;
+    requestAnimationFrame(tickReel);
+  };
+  requestAnimationFrame(tickReel);
+
+  // Hover detection
+  container.addEventListener('mouseenter', () => { isHovered = true; });
+  container.addEventListener('mouseleave', () => { isHovered = false; });
+
+  // Arrow button navigation (rotates by 1 card step = 36 deg)
+  const stepAngle = 360 / total;
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      targetRotation += stepAngle;
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      targetRotation -= stepAngle;
+    });
+  }
+
+  // Pointer drag support (Mouse & Touch)
+  container.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.reel-nav-btn')) return;
+    isDragging = true;
+    startX = e.clientX;
+    dragStartRot = targetRotation;
+    dragDistance = 0;
+    container.style.cursor = 'grabbing';
   });
+
+  window.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    const diff = e.clientX - startX;
+    dragDistance = diff;
+    targetRotation = dragStartRot + diff * 0.28;
+  });
+
+  window.addEventListener('pointerup', () => {
+    if (isDragging) {
+      isDragging = false;
+      container.style.cursor = 'grab';
+    }
+  });
+
+  // ── CINEMATIC LIGHTBOX MODAL ────────────────────────────────
+  if (!lightbox) return;
+
+  const mainImg = lightbox.querySelector('.lightbox-main-img');
+  const captionText = lightbox.querySelector('.lightbox-caption-text');
+  const counter = lightbox.querySelector('.lightbox-counter');
+  const closeBtn = lightbox.querySelector('.lightbox-close');
+  const lbPrevBtn = lightbox.querySelector('.lightbox-prev');
+  const lbNextBtn = lightbox.querySelector('.lightbox-next');
+  const thumbsContainer = lightbox.querySelector('.lightbox-thumbs');
+
+  let currentLbIndex = 0;
+
+  // Build thumbnails
+  if (thumbsContainer) {
+    thumbsContainer.innerHTML = '';
+    HOTEL_IMAGES.forEach((item, idx) => {
+      const thumb = document.createElement('div');
+      thumb.className = `lightbox-thumb ${idx === 0 ? 'active' : ''}`;
+      thumb.innerHTML = `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
+      thumb.addEventListener('click', () => showLightboxIndex(idx));
+      thumbsContainer.appendChild(thumb);
+    });
+  }
+
+  const showLightboxIndex = (index) => {
+    currentLbIndex = (index + HOTEL_IMAGES.length) % HOTEL_IMAGES.length;
+    const item = HOTEL_IMAGES[currentLbIndex];
+    if (!item) return;
+
+    if (mainImg) mainImg.src = item.src;
+    if (captionText) captionText.textContent = `${item.title} — ${item.cat}`;
+    if (counter) counter.textContent = `${padNum(currentLbIndex + 1, 2)} / ${padNum(HOTEL_IMAGES.length, 2)}`;
+
+    const thumbs = thumbsContainer?.querySelectorAll('.lightbox-thumb');
+    thumbs?.forEach((th, i) => th.classList.toggle('active', i === currentLbIndex));
+  };
+
+  const openLightbox = (index) => {
+    showLightboxIndex(index);
+    lightbox.classList.add('active');
+    document.body.classList.add('scroll-locked');
+  };
+
+  const closeLightbox = () => {
+    lightbox.classList.remove('active');
+    document.body.classList.remove('scroll-locked');
+  };
+
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (lbPrevBtn) lbPrevBtn.addEventListener('click', () => showLightboxIndex(currentLbIndex - 1));
+  if (lbNextBtn) lbNextBtn.addEventListener('click', () => showLightboxIndex(currentLbIndex + 1));
+
+  window.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showLightboxIndex(currentLbIndex - 1);
+    if (e.key === 'ArrowRight') showLightboxIndex(currentLbIndex + 1);
+  });
+
+  let lbTouchStartX = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    lbTouchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  lightbox.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].screenX - lbTouchStartX;
+    if (Math.abs(diff) > 45) {
+      if (diff > 0) showLightboxIndex(currentLbIndex - 1);
+      else showLightboxIndex(currentLbIndex + 1);
+    }
+  }, { passive: true });
 }
 
 /* ── 7. GUEST VOICES (3D DRAGGABLE STACKED CAROUSEL) ─────────── */
@@ -1055,9 +1006,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTimeOfDayScroll();
   initNavigation();
   initHeroCanvas();
-  initBentoGallery();
-  initCylinderGallery();
-  initGalleryViewSwitch();
+  init3DHorizonReelAndLightbox();
   initVoicesCarousel();
   initContactSection();
   initAmbientSound();

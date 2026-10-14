@@ -1459,100 +1459,34 @@ p {
   flex-shrink: 0;
 }
 
-/* ── 16. BENTO GALLERY & 3D CYLINDRICAL HORIZON REEL ──────────────── */
-.gallery-view-switch {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0 auto 2.5rem;
-  background: rgba(8, 35, 38, 0.7);
-  padding: 0.35rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(223, 194, 126, 0.25);
-  width: fit-content;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-}
-
-.gallery-view-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.4rem;
-  border-radius: var(--radius-pill);
-  border: none;
-  background: transparent;
-  color: var(--color-seafoam);
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s var(--ease-luxury);
-}
-
-.gallery-view-btn.active {
-  background: var(--color-antique-gold);
-  color: var(--color-deep-teal);
-  font-weight: 600;
-  box-shadow: 0 4px 16px rgba(223, 194, 126, 0.35);
-}
-
-.gallery-view-btn:hover:not(.active) {
-  color: var(--color-warm-ivory);
-  background: rgba(26, 122, 122, 0.2);
-}
-
-/* 3D Cylindrical Curved Stream View */
+/* ── 16. 3D CYLINDRICAL HORIZONTAL REEL GALLERY ──────────────── */
 .cylinder-gallery-view {
   width: 100%;
   position: relative;
-  transition: opacity 0.4s ease;
+  margin-top: 1rem;
 }
 
 .cylinder-hero-viewport {
   position: relative;
   width: 100%;
-  height: 480px;
+  height: 520px;
   border-radius: var(--radius-xl);
   overflow: hidden;
-  border: 1px solid rgba(223, 194, 126, 0.25);
-  background: radial-gradient(circle at 50% 50%, rgba(26, 122, 122, 0.2) 0%, rgba(8, 35, 38, 0.98) 75%);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 0 40px rgba(8, 35, 38, 0.8);
+  border: 1px solid rgba(223, 194, 126, 0.28);
+  background: radial-gradient(circle at 50% 50%, rgba(26, 122, 122, 0.22) 0%, rgba(8, 35, 38, 0.98) 75%);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45), inset 0 0 50px rgba(8, 35, 38, 0.9);
   mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
   perspective: 1200px;
   perspective-origin: 50% 50%;
-  contain: layout paint;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
 }
 
-.cylinder-hero-overlay-center {
-  position: absolute;
-  top: 1.5rem;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  text-align: center;
-  pointer-events: none;
-  padding: 0 1rem;
-}
-
-.cylinder-badge {
-  display: inline-block;
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-antique-gold);
-  background: rgba(8, 35, 38, 0.8);
-  padding: 0.4rem 1.2rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(223, 194, 126, 0.3);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+.cylinder-hero-viewport:active {
+  cursor: grabbing;
 }
 
 .cylinder-track {
@@ -1562,35 +1496,23 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: cylinder-track-spin 42s linear infinite;
   will-change: transform;
-}
-
-@keyframes cylinder-track-spin {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(-360deg);
-  }
 }
 
 .cylinder-card {
   position: absolute;
   width: clamp(280px, 30vw, 380px);
-  height: clamp(190px, 22vw, 250px);
+  height: clamp(190px, 22vw, 255px);
   transform-style: preserve-3d;
   cursor: pointer;
   will-change: transform;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65);
   border: 1px solid rgba(223, 194, 126, 0.35);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transition: border-color 0.35s ease, filter 0.35s ease;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
 .cylinder-card img {
@@ -1599,7 +1521,7 @@ p {
   object-fit: cover;
   display: block;
   pointer-events: none;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s var(--ease-luxury);
 }
 
 .cylinder-card-glass {
@@ -1607,10 +1529,10 @@ p {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1rem 1.25rem;
-  background: linear-gradient(to top, rgba(8, 35, 38, 0.95) 0%, rgba(8, 35, 38, 0.5) 70%, transparent 100%);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  padding: 1.1rem 1.4rem;
+  background: linear-gradient(to top, rgba(8, 35, 38, 0.96) 0%, rgba(8, 35, 38, 0.6) 70%, transparent 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: var(--color-warm-ivory);
   pointer-events: none;
 }
@@ -1618,16 +1540,16 @@ p {
 .cylinder-card-cat {
   display: block;
   font-family: var(--font-sans);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-seafoam);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.25rem;
 }
 
 .cylinder-card-title {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 400;
   color: var(--color-warm-ivory);
   line-height: 1.3;
@@ -1635,197 +1557,70 @@ p {
 
 .cylinder-card:hover {
   border-color: var(--color-antique-gold);
-  filter: brightness(1.12) drop-shadow(0 0 24px rgba(223, 194, 126, 0.45));
+  filter: brightness(1.15) drop-shadow(0 0 28px rgba(223, 194, 126, 0.5));
 }
 
 .cylinder-card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.08);
+}
+
+/* Interactive Luxury Navigation Arrows */
+.reel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(8, 35, 38, 0.8);
+  border: 1px solid rgba(223, 194, 126, 0.4);
+  color: var(--color-antique-gold);
+  font-size: 2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 30;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s var(--ease-luxury);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  outline: none;
+}
+
+.reel-nav-btn:hover {
+  background: var(--color-antique-gold);
+  color: var(--color-deep-teal);
+  border-color: var(--color-antique-gold);
+  box-shadow: 0 0 28px rgba(223, 194, 126, 0.7);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.reel-prev {
+  left: 1.5rem;
+}
+
+.reel-next {
+  right: 1.5rem;
 }
 
 @media (max-width: 768px) {
   .cylinder-hero-viewport {
     height: 380px;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cylinder-track {
-    animation-play-state: paused !important;
+  .reel-nav-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.6rem;
   }
-}
-
-.gallery-filters {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 3rem;
-  position: relative;
-  background: rgba(8, 35, 38, 0.85);
-  padding: 0.35rem;
-  border-radius: var(--radius-pill);
-  max-width: fit-content;
-  margin-inline: auto;
-  border: 1px solid rgba(223, 194, 126, 0.24);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.gallery-filter-btn {
-  padding: 0.5rem 1.4rem;
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border-radius: var(--radius-pill);
-  color: var(--color-seafoam);
-  transition: color 0.3s ease;
-  position: relative;
-  z-index: 2;
-}
-
-.gallery-filter-btn.active {
-  color: var(--color-deep-teal);
-  font-weight: 600;
-}
-
-.gallery-filter-pill {
-  position: absolute;
-  top: 0.35rem;
-  bottom: 0.35rem;
-  left: 0.35rem;
-  width: 0;
-  background: var(--color-antique-gold);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 4px 16px rgba(223, 194, 126, 0.35);
-  transition: left 0.35s var(--ease-spring), width 0.35s var(--ease-spring);
-  z-index: 1;
-}
-
-/* Bento Grid Architecture (7 items, zero orphans) */
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 240px;
-  gap: 1.5rem;
-}
-
-.bento-tile {
-  position: relative;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: var(--shadow-card);
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  transition: transform 0.4s var(--ease-smooth), opacity 0.4s ease, filter 0.4s ease;
-  will-change: transform, opacity;
-}
-
-/* Bento Item Geometry & Arched Shapes */
-.bento-tile-1 { grid-column: span 8; grid-row: span 2; border-radius: 48px 48px 24px 24px; } /* Infinity pool arched */
-.bento-tile-2 { grid-column: span 4; grid-row: span 1; } /* Cliff Suite */
-.bento-tile-3 { grid-column: span 4; grid-row: span 1; } /* Cliff Dining */
-.bento-tile-4 { grid-column: span 4; grid-row: span 2; border-radius: 48px 24px 48px 24px; } /* Spa tall */
-.bento-tile-5 { grid-column: span 8; grid-row: span 1; } /* Sunrise wide */
-.bento-tile-6 { grid-column: span 4; grid-row: span 1; } /* Heritage room */
-.bento-tile-7 { grid-column: span 4; grid-row: span 1; } /* Terrace Breakfast */
-
-.bento-tile.filtered-out {
-  opacity: 0.12;
-  filter: grayscale(80%) blur(1px);
-  pointer-events: none;
-  transform: scale(0.96);
-}
-
-.bento-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.75s var(--ease-luxury), filter 0.5s ease;
-  will-change: transform;
-}
-
-/* Hover Focus Effect: others dim and desaturate */
-.bento-grid:hover .bento-tile:not(:hover) {
-  filter: brightness(0.85) saturate(0.65);
-  opacity: 0.8;
-}
-
-.bento-tile:hover .bento-img {
-  transform: scale(1.08);
-}
-
-/* 3D Moving Glare Overlay */
-.bento-glare {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.3) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.bento-tile:hover .bento-glare {
-  opacity: 1;
-}
-
-/* Glass Caption Overlay */
-.bento-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1.5rem 1.75rem;
-  background: linear-gradient(to top, rgba(8, 35, 38, 0.95) 0%, rgba(8, 35, 38, 0.55) 65%, transparent 100%);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: var(--color-warm-ivory);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transform: translateY(18px);
-  opacity: 0.85;
-  transition: transform 0.35s var(--ease-smooth), opacity 0.35s ease;
-  z-index: 3;
-}
-
-.bento-tile:hover .bento-caption {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.bento-caption-title {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  color: var(--color-warm-ivory);
-}
-
-.bento-caption-cat {
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-seafoam);
-}
-
-.bento-expand-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(223, 194, 126, 0.18);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  border: 1px solid rgba(223, 194, 126, 0.35);
-  color: var(--color-antique-gold);
-  transition: transform 0.25s var(--ease-spring), background 0.25s ease, color 0.25s ease;
-}
-
-.bento-tile:hover .bento-expand-icon {
-  transform: scale(1.1);
-  background: var(--color-antique-gold);
-  color: var(--color-deep-teal);
+  .reel-prev {
+    left: 0.75rem;
+  }
+  .reel-next {
+    right: 0.75rem;
+  }
 }
 
 /* ── 17. CINEMATIC LIGHTBOX ──────────────────────────────────── */
@@ -2716,47 +2511,37 @@ p {
   .rooms-grid { grid-template-columns: 1fr; }
   .amenities-grid { grid-template-columns: repeat(2, 1fr); }
   .contact-cards-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-
-  .bento-tile-1 { grid-column: span 12; grid-row: span 2; }
-  .bento-tile-2 { grid-column: span 6; }
-  .bento-tile-3 { grid-column: span 6; }
-  .bento-tile-4 { grid-column: span 6; grid-row: span 2; }
-  .bento-tile-5 { grid-column: span 6; grid-row: span 1; }
-  .bento-tile-6 { grid-column: span 6; }
-  .bento-tile-7 { grid-column: span 6; }
-}
-
-@media (max-width: 768px) {
-  .hero-track {
-    height: 180vh; /* Smooth, responsive mobile travel distance: 1-2 thumb swipes advances ~35-45 frames per scroll without sticking */
+    .footer-grid { grid-template-columns: 1fr 1fr; }
   }
-  .nav-links, .nav-book-btn { display: none; }
-  .nav-hamburger { display: flex; }
-  .section-tracker { display: none; }
-  
-  .amenities-grid { grid-template-columns: 1fr; }
-  .bento-grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
-  .bento-tile { grid-column: span 1 !important; grid-row: span 1 !important; }
-  .enquiry-form-grid { grid-template-columns: 1fr; }
-  .form-group-full { grid-column: span 1; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .about-stats { grid-template-columns: 1fr; gap: 1rem; }
-  
-  .voices-stage { height: 460px; }
-  .voices-quote { font-size: 1.15rem; }
-}
 
-/* ── 26. ACCESSIBILITY / PREFERS-REDUCED-MOTION ───────────────── */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  @media (max-width: 768px) {
+    .hero-track {
+      height: 180vh; /* Smooth, responsive mobile travel distance: 1-2 thumb swipes advances ~35-45 frames per scroll without sticking */
+    }
+    .nav-links, .nav-book-btn { display: none; }
+    .nav-hamburger { display: flex; }
+    .section-tracker { display: none; }
+    
+    .amenities-grid { grid-template-columns: 1fr; }
+    .enquiry-form-grid { grid-template-columns: 1fr; }
+    .form-group-full { grid-column: span 1; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr; gap: 1rem; }
+    
+    .voices-stage { height: 460px; }
+    .voices-quote { font-size: 1.15rem; }
   }
-  .curtain-overlay { display: none !important; }
-  .bento-tile { transform: none !important; }
+
+  /* ── 26. ACCESSIBILITY / PREFERS-REDUCED-MOTION ───────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .curtain-overlay { display: none !important; }
+    .cylinder-track { animation: none !important; }
   .wave-layer { animation: none !important; }
   .hero-scroll-line { animation: none !important; }
   .whatsapp-float-btn { animation: none !important; }

@@ -560,140 +560,24 @@
         </div>
       </section>
 
-      <!-- ── 9. SECTION 05: BENTO GALLERY ("A GLIMPSE OF AURELIA") ── -->
+      <!-- ── 9. SECTION 05: 3D HORIZON REEL GALLERY ("A GLIMPSE OF AURELIA") ── -->
       <section id="gallery" class="section section-dark-teal" aria-labelledby="gallery-title">
         <div class="container">
           <div class="section-header">
             <span class="section-watermark" aria-hidden="true">05</span>
             <span class="eyebrow">Visual Narrative</span>
             <h2 id="gallery-title">A Glimpse of Aurelia</h2>
-            <p class="subtitle">Atmospheric vignettes of our boutique cliff haven.</p>
+            <p class="subtitle">Curved 3D horizon reel · Drag or hover to pause · Click card to view</p>
           </div>
 
-          <!-- Gallery View Mode Toggle (Curated Bento Grid / 3D Horizon Reel) -->
-          <div class="gallery-view-switch" role="tablist" aria-label="Choose gallery display mode">
-            <button class="gallery-view-btn active" data-view="bento" role="tab" aria-selected="true" id="tab-bento">
-              <span class="view-btn-icon" aria-hidden="true">☷</span>
-              <span>Curated Bento Grid</span>
-            </button>
-            <button class="gallery-view-btn" data-view="cylinder" role="tab" aria-selected="false" id="tab-cylinder">
-              <span class="view-btn-icon" aria-hidden="true">✦</span>
-              <span>3D Horizon Reel</span>
-            </button>
-          </div>
-
-          <!-- View 1: Curated Bento Grid (7 Items) - Primary Default -->
-          <div class="bento-gallery-view active" id="bentoGalleryView" role="tabpanel" aria-labelledby="tab-bento">
-            <!-- Sliding Category Filter -->
-            <div class="gallery-filters" role="tablist" aria-label="Filter gallery spaces">
-              <div class="gallery-filter-pill" aria-hidden="true"></div>
-              <button class="gallery-filter-btn active" data-category="all" role="tab" aria-selected="true">All</button>
-              <button class="gallery-filter-btn" data-category="rooms" role="tab" aria-selected="false">Rooms</button>
-              <button class="gallery-filter-btn" data-category="dining" role="tab" aria-selected="false">Dining</button>
-              <button class="gallery-filter-btn" data-category="wellness" role="tab" aria-selected="false">Wellness</button>
-              <button class="gallery-filter-btn" data-category="views" role="tab" aria-selected="false">Views</button>
-            </div>
-
-            <!-- Bento Grid (Balanced 7 items, 0 orphans) -->
-            <div class="bento-grid">
-            <!-- Tile 1: Arched Hero (Infinity pool) -->
-            <div class="bento-tile bento-tile-1" data-category="wellness" role="button" tabindex="0" aria-label="View Infinity Pool photo">
-              <img src="./images/gallery-1.webp" alt="Cliff-edge infinity swimming pool merging with Arabian Sea horizon at dusk" class="bento-img" loading="lazy">
-              <div class="bento-glare" aria-hidden="true"></div>
-              <div class="bento-caption">
-                <div>
-                  <div class="bento-caption-title">Infinity Pool at Dusk</div>
-                  <div class="bento-caption-cat">Wellness · Horizon</div>
-                </div>
-                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
-              </div>
-            </div>
-
-            <!-- Tile 2: Cliff Suite -->
-            <div class="bento-tile bento-tile-2" data-category="rooms" role="button" tabindex="0" aria-label="View Cliff Suite photo">
-              <img src="./images/room-cliff-suite.webp" alt="Cliff Suite bedroom opening onto private sunset plunge pool" class="bento-img" loading="lazy">
-              <div class="bento-glare" aria-hidden="true"></div>
-              <div class="bento-caption">
-                <div>
-                  <div class="bento-caption-title">The Cliff Suite</div>
-                  <div class="bento-caption-cat">Rooms · Oceanfront</div>
-                </div>
-                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
-              </div>
-            </div>
-
-            <!-- Tile 3: Cliff Dining -->
-            <div class="bento-tile bento-tile-3" data-category="dining" role="button" tabindex="0" aria-label="View Cliff Dining photo">
-              <img src="./images/gallery-3.webp" alt="Candlelit rooftop dining terrace overlooking the ocean" class="bento-img" loading="lazy">
-              <div class="bento-glare" aria-hidden="true"></div>
-              <div class="bento-caption">
-                <div>
-                  <div class="bento-caption-title">Cliffside Dining</div>
-                  <div class="bento-caption-cat">Dining · Evening</div>
-                </div>
-                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
-              </div>
-            </div>
-
-            <!-- Tile 4: Tall Arched Spa -->
-            <div class="bento-tile bento-tile-4" data-category="wellness" role="button" tabindex="0" aria-label="View Ayurvedic Spa photo">
-              <img src="./images/gallery-5.webp" alt="Ayurvedic spa treatment room with traditional wooden massage table and flower bowl" class="bento-img" loading="lazy">
-              <div class="bento-glare" aria-hidden="true"></div>
-              <div class="bento-caption">
-                <div>
-                  <div class="bento-caption-title">Ayurvedic Sanctuary</div>
-                  <div class="bento-caption-cat">Wellness · Spa</div>
-                </div>
-                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
-              </div>
-            </div>
-
-            <!-- Tile 5: Wide Sunrise -->
-            <div class="bento-tile bento-tile-5" data-category="views" role="button" tabindex="0" aria-label="View Varkala Sunrise photo">
-              <img src="./images/gallery-4.webp" alt="Panoramic scenic view of Varkala red cliff coastline at golden sunrise" class="bento-img" loading="lazy">
-              <div class="bento-glare" aria-hidden="true"></div>
-              <div class="bento-caption">
-                <div>
-                  <div class="bento-caption-title">Varkala Cliff Sunrise</div>
-                  <div class="bento-caption-cat">Views · Coastal Panorama</div>
-                </div>
-                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
-              </div>
-            </div>
-
-            <!-- Tile 6: Heritage Sanctuary -->
-            <div class="bento-tile bento-tile-6" data-category="rooms" role="button" tabindex="0" aria-label="View Heritage Room photo">
-              <img src="./images/gallery-2.webp" alt="Kerala heritage hotel room interior with laterite walls and copper bathtub" class="bento-img" loading="lazy">
-              <div class="bento-glare" aria-hidden="true"></div>
-              <div class="bento-caption">
-                <div>
-                  <div class="bento-caption-title">Heritage Room</div>
-                  <div class="bento-caption-cat">Rooms · Laterite</div>
-                </div>
-                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
-              </div>
-            </div>
-
-            <!-- Tile 7: Terrace Breakfast -->
-            <div class="bento-tile bento-tile-7" data-category="dining" role="button" tabindex="0" aria-label="View Breakfast Spread photo">
-              <img src="./images/gallery-6.webp" alt="Delicious tropical breakfast feast spread on sea-facing balcony" class="bento-img" loading="lazy">
-              <div class="bento-glare" aria-hidden="true"></div>
-              <div class="bento-caption">
-                <div>
-                  <div class="bento-caption-title">Terrace Breakfast</div>
-                  <div class="bento-caption-cat">Dining · Morning</div>
-                </div>
-                <div class="bento-expand-icon" aria-hidden="true">⊕</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- View 2: 3D Cylindrical Curved Horizon Reel -->
-          <div class="cylinder-gallery-view" id="cylinderGalleryView" role="tabpanel" aria-labelledby="tab-cylinder" style="display: none;">
+          <!-- 3D Cylindrical Horizon Reel -->
+          <div class="cylinder-gallery-view" id="cylinderGalleryView" aria-label="3D Cylindrical Horizon Reel">
             <div class="cylinder-hero-viewport" id="cylinderViewport">
-              <div class="cylinder-hero-overlay-center">
-                <span class="cylinder-badge">✦ Curved 3D Horizon Reel · Hover to Pause · Click to Enlarge</span>
-              </div>
+              <!-- Interactive Navigation Arrows -->
+              <button class="reel-nav-btn reel-prev" id="reelPrevBtn" aria-label="Rotate reel left" type="button">‹</button>
+              <button class="reel-nav-btn reel-next" id="reelNextBtn" aria-label="Rotate reel right" type="button">›</button>
+
+              <!-- 3D Carousel Cylinder Track -->
               <div class="cylinder-track" id="cylinderTrack"></div>
             </div>
           </div>
