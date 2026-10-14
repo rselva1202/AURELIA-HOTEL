@@ -395,9 +395,9 @@ function init3DHorizonReelAndLightbox() {
   // Responsive radius calculation
   const getRadius = () => {
     const w = container.clientWidth || 1000;
-    if (w < 600) return 380;
-    if (w < 1024) return 520;
-    return Math.min(720, Math.max(580, w * 0.52));
+    if (w < 600) return 420;
+    if (w < 1024) return 650;
+    return Math.min(1100, Math.max(820, w * 0.68));
   };
 
   const renderCards = () => {
@@ -957,19 +957,259 @@ function initFAQ() {
   });
 }
 
-/* ── 12. FLOATING WHATSAPP BUTTON & SINGLE 8S TOOLTIP ────────── */
-function initWhatsAppTooltip() {
-  const tooltip = document.querySelector('.whatsapp-tooltip');
-  if (!tooltip) return;
+/* ── 12. FLOATING GOLDEN PARTICLES FOR DEEP OCEAN TEAL SECTIONS ── */
+function initGoldenParticles() {
+  const canvases = document.querySelectorAll('.golden-particles-canvas');
+  if (!canvases.length) return;
 
-  const shown = sessionStorage.getItem('aurelia_wa_tooltip');
-  if (!shown) {
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  canvases.forEach((canvas) => {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = 0;
+    let height = 0;
+    let particles = [];
+
+    const resize = () => {
+      const parent = canvas.parentElement;
+      width = parent ? parent.offsetWidth : window.innerWidth;
+      height = parent ? parent.offsetHeight : window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      initParticles();
+    };
+
+    const initParticles = () => {
+      particles = [];
+      const particleCount = Math.min(50, Math.max(22, Math.floor((width * height) / 24000)));
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 2.2 + 0.8,
+          speedY: Math.random() * 0.55 + 0.25, // upward drift from bottom to top
+          swaySpeed: Math.random() * 0.02 + 0.01,
+          swayAngle: Math.random() * Math.PI * 2,
+          swayDist: Math.random() * 1.2 + 0.4,
+          baseAlpha: Math.random() * 0.45 + 0.3,
+          alpha: 0.5,
+          hue: Math.random() * 14 + 42 // warm yellow to rich radiant gold
+        });
+      }
+    };
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach((p) => {
+        if (!isReducedMotion) {
+          p.y -= p.speedY;
+          p.swayAngle += p.swaySpeed;
+          p.x += Math.sin(p.swayAngle) * p.swayDist;
+          p.alpha = p.baseAlpha + Math.sin(p.swayAngle * 2) * 0.2;
+
+          // Wrap around when exiting the top
+          if (p.y < -10) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+          }
+          if (p.x < -10) p.x = width + 10;
+          if (p.x > width + 10) p.x = -10;
+        }
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue}, 90%, 68%, ${Math.max(0.1, p.alpha)})`;
+        ctx.shadowColor = `hsla(${p.hue}, 95%, 72%, 0.75)`;
+        ctx.shadowBlur = p.radius * 6;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      if (!isReducedMotion) {
+        requestAnimationFrame(render);
+      }
+    };
+
+    resize();
+    render();
+
+    window.addEventListener('resize', debounce(() => {
+      resize();
+      if (isReducedMotion) render();
+    }, 200));
+  });
+}
+
+/* ── 12b. LUXURY CUSTOM ROOM SELECTOR WITH THUMBNAILS ────────── */
+function initRoomSelector() {
+  const selector = document.querySelector('.luxury-room-selector');
+  const trigger = document.getElementById('roomSelectorTrigger');
+  const content = document.getElementById('roomTriggerContent');
+  const menu = document.getElementById('roomDropdownMenu');
+  const hiddenInput = document.getElementById('room-select');
+  const options = document.querySelectorAll('.room-opt');
+
+  if (!selector || !trigger || !content || !menu || !hiddenInput) return;
+
+  const toggleDropdown = (open) => {
+    const isOpen = typeof open === 'boolean' ? open : !selector.classList.contains('active');
+    selector.classList.toggle('active', isOpen);
+    trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    menu.style.display = isOpen ? 'flex' : 'none';
+  };
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleDropdown();
+  });
+
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleDropdown();
+    } else if (e.key === 'Escape') {
+      toggleDropdown(false);
+    }
+  });
+
+  options.forEach((opt) => {
+    opt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const val = opt.getAttribute('data-value') || '';
+      const name = opt.getAttribute('data-name') || '';
+      const price = opt.getAttribute('data-price') || '';
+      const img = opt.getAttribute('data-img') || '';
+
+      hiddenInput.value = val;
+
+      content.innerHTML = `
+        <div class="room-trigger-selected">
+          <img src="${img}" alt="${name}" class="room-trigger-thumb" />
+          <div>
+            <span class="room-trigger-name">${name}</span> &nbsp;
+            <span class="room-trigger-price">(${price})</span>
+          </div>
+        </div>
+      `;
+
+      options.forEach((o) => o.classList.remove('selected'));
+      opt.classList.add('selected');
+
+      toggleDropdown(false);
+
+      // Dispatch change event on hidden input for form validation listeners
+      hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!selector.contains(e.target)) {
+      toggleDropdown(false);
+    }
+  });
+}
+
+/* ── 12c. AURELIA AI CONCIERGE ASSISTANT ─────────────────────── */
+function initAIAssistant() {
+  const btn = document.getElementById('aiAssistantBtn');
+  const chatWindow = document.getElementById('aiChatWindow');
+  const closeBtn = document.getElementById('aiChatClose');
+  const messagesContainer = document.getElementById('aiChatMessages');
+  const chips = document.querySelectorAll('.ai-chip');
+  const form = document.getElementById('aiChatForm');
+  const input = document.getElementById('aiChatInput');
+
+  if (!btn || !chatWindow || !closeBtn || !messagesContainer || !form || !input) return;
+
+  const toggleChat = (open) => {
+    const isVisible = typeof open === 'boolean' ? open : chatWindow.style.display !== 'flex';
+    chatWindow.style.display = isVisible ? 'flex' : 'none';
+    btn.setAttribute('aria-expanded', isVisible ? 'true' : 'false');
+    if (isVisible) {
+      setTimeout(() => input.focus(), 150);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+  };
+
+  btn.addEventListener('click', () => toggleChat());
+  closeBtn.addEventListener('click', () => toggleChat(false));
+
+  const appendMessage = (text, sender = 'bot') => {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `ai-msg ai-msg-${sender}`;
+    msgDiv.innerHTML = `<div class="ai-msg-bubble">${text}</div>`;
+    messagesContainer.appendChild(msgDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    return msgDiv;
+  };
+
+  const getAureliaResponse = (query) => {
+    const q = query.toLowerCase();
+
+    if (q.includes('price') || q.includes('suite') || q.includes('room') || q.includes('cost') || (q.includes('stay') && q.includes('type'))) {
+      return `Aurelia offers 4 handcrafted ocean-facing sanctuaries:
+<br><br>
+✦ <strong>The Cliff Suite</strong> (₹18,500/night) — Oceanfront plunge pool &amp; panoramic Arabian Sea views.<br>
+✦ <strong>Garden Villa</strong> (₹12,500/night) — Secluded cottage with private spice garden &amp; stone rain shower.<br>
+✦ <strong>Heritage Room</strong> (₹9,800/night) — Exposed laterite stone, teakwood &amp; copper bath.<br>
+✦ <strong>Sea Breeze Room</strong> (₹6,500/night) — Coastal trade winds with private sea-view balcony.<br><br>
+You can select your suite in our Request Stay form below!`;
+    }
+
+    if (q.includes('dining') || q.includes('food') || q.includes('eat') || q.includes('restaurant') || q.includes('menu') || q.includes('catch')) {
+      return `Our culinary philosophy celebrates the Malabar coast. We source fresh morning catamaran catch, traditional cold-pressed coconut curries with Malabar tamarind, and host sunset cocktail evenings at our cliffside <strong>Sundowner Bar</strong> overlooking the sea.`;
+    }
+
+    if (q.includes('spa') || q.includes('ayurvedic') || q.includes('massage') || q.includes('wellness')) {
+      return `Our <strong>Ayurvedic Sanctuary</strong> offers classical Kerala wellness rituals using organic herbal oils, soothing cliffside Shirodhara, and Abhyanga massages timed to the evening rhythm of breaking ocean waves.`;
+    }
+
+    if (q.includes('book') || q.includes('reserve') || q.includes('reservation') || q.includes('contact') || q.includes('phone')) {
+      return `You can submit a reservation inquiry right on this page under <strong>Request Your Stay</strong>. Alternatively, contact our concierge directly at <a href="tel:+916369403544" style="color: var(--color-antique-gold); text-decoration: underline;">+91 63694 03544</a> or <a href="mailto:hello@aureliahotel.com" style="color: var(--color-antique-gold); text-decoration: underline;">hello@aureliahotel.com</a>.`;
+    }
+
+    if (q.includes('location') || q.includes('where') || q.includes('varkala') || q.includes('airport') || q.includes('reach')) {
+      return `Aurelia Hotel is perched 30 metres atop the red laterite cliffs of Varkala, Kerala, overlooking the pristine Arabian Sea. Trivandrum International Airport (TRV) is approximately 50 minutes away by scenic coastal drive. We provide private airport chauffeurs upon request.`;
+    }
+
+    if (q.includes('check') || q.includes('time') || q.includes('policy')) {
+      return `Check-in is from <strong>2:00 PM</strong> and check-out is at <strong>11:00 AM</strong>. Early check-in and late sunset check-out are warmly accommodated based on suite availability.`;
+    }
+
+    return `Thank you for your enquiry. Perched above the Arabian Sea, Aurelia Hotel offers bespoke coastal stays, Ayurvedic wellness, and cliffside dining. Would you like to check suite availability, explore our dining, or plan private excursions?`;
+  };
+
+  const handleUserMessage = (text) => {
+    if (!text.trim()) return;
+    appendMessage(text, 'user');
+    input.value = '';
+
+    // Show temporary typing indicator
+    const typingIndicator = appendMessage('✦ <em>Aurelia Concierge is preparing your details...</em>', 'bot');
+
     setTimeout(() => {
-      tooltip.classList.add('show');
-      sessionStorage.setItem('aurelia_wa_tooltip', 'true');
-      setTimeout(() => tooltip.classList.remove('show'), 6000);
-    }, 8000);
-  }
+      typingIndicator.remove();
+      const reply = getAureliaResponse(text);
+      appendMessage(reply, 'bot');
+    }, 600);
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    handleUserMessage(input.value);
+  });
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const prompt = chip.getAttribute('data-prompt') || chip.textContent;
+      handleUserMessage(prompt);
+    });
+  });
 }
 
 /* ── 13. EDITORIAL LOADING CURTAIN SEQUENCE ──────────────────── */
@@ -1011,6 +1251,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactSection();
   initAmbientSound();
   initFireflies();
+  initGoldenParticles();
+  initRoomSelector();
+  initAIAssistant();
   initFAQ();
-  initWhatsAppTooltip();
 });

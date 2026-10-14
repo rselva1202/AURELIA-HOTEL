@@ -677,62 +677,6 @@ p {
   border-color: var(--color-warm-ivory);
 }
 
-/* Ambient Sound Wave Toggle Button */
-.sound-toggle-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(26, 122, 122, 0.2);
-  color: var(--color-seafoam);
-  border: 1px solid rgba(223, 194, 126, 0.25);
-  transition: background 0.3s ease, transform 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.sound-toggle-btn:hover {
-  background: rgba(223, 194, 126, 0.2);
-  color: var(--color-antique-gold);
-  border-color: var(--color-antique-gold);
-  transform: scale(1.05);
-}
-
-.sound-toggle-btn.playing {
-  background: var(--color-antique-gold);
-  color: var(--color-deep-teal);
-  border-color: var(--color-antique-gold);
-}
-
-/* 3-bar animated equalizer icon */
-.eq-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 14px;
-}
-
-.eq-bar {
-  width: 2px;
-  background-color: currentColor;
-  border-radius: 1px;
-  height: 4px;
-}
-
-.sound-toggle-btn.playing .eq-bar:nth-child(1) {
-  animation: eqBounce1 0.7s ease-in-out infinite alternate;
-}
-.sound-toggle-btn.playing .eq-bar:nth-child(2) {
-  animation: eqBounce2 0.5s ease-in-out 0.2s infinite alternate;
-}
-.sound-toggle-btn.playing .eq-bar:nth-child(3) {
-  animation: eqBounce3 0.8s ease-in-out 0.4s infinite alternate;
-}
-
-@keyframes eqBounce1 { from { height: 4px; } to { height: 13px; } }
-@keyframes eqBounce2 { from { height: 6px; } to { height: 14px; } }
-@keyframes eqBounce3 { from { height: 3px; } to { height: 11px; } }
-
 /* Scroll Progress Line under Nav Pill */
 .nav-scroll-progress {
   position: absolute;
@@ -953,8 +897,9 @@ p {
   to   { transform: translateX(-18%); }
 }
 
-/* ── 9. DRIFTING LIGHT / FIREFLIES CANVAS ────────────────────── */
-.fireflies-canvas {
+/* ── 9. DRIFTING LIGHT / FIREFLIES & GOLDEN PARTICLES CANVAS ── */
+.fireflies-canvas,
+.golden-particles-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -1071,7 +1016,7 @@ p {
 .hero-track {
   position: relative;
   width: 100%;
-  height: 400vh;
+  height: calc(100vh + 2000px); /* 100px scroll notch = precisely 6 frames progression */
   background: var(--color-deep-teal);
 }
 
@@ -1223,17 +1168,58 @@ p {
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 16px 40px -8px rgba(8, 35, 38, 0.15);
+  box-shadow: 0 20px 50px -10px rgba(8, 35, 38, 0.25);
+  animation: aboutCardFloat 7s ease-in-out infinite alternate;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+@keyframes aboutCardFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-10px) rotate(0.4deg);
+  }
 }
 
 .about-img-frame::before {
   content: '';
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(223, 194, 126, 0.4);
+  border: 1px solid rgba(223, 194, 126, 0.45);
   border-radius: inherit;
   z-index: 2;
   pointer-events: none;
+}
+
+/* Diagonal radiant gold light sheen that glides across the photo */
+.about-img-frame::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgba(223, 194, 126, 0.18) 50%,
+    transparent 58%
+  );
+  transform: rotate(25deg) translateY(-100%);
+  animation: aboutSheenSweep 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+@keyframes aboutSheenSweep {
+  0%, 30% {
+    transform: rotate(25deg) translateY(-120%);
+  }
+  70%, 100% {
+    transform: rotate(25deg) translateY(120%);
+  }
 }
 
 .about-img {
@@ -1241,10 +1227,62 @@ p {
   height: 520px;
   object-fit: cover;
   transition: transform 0.8s var(--ease-luxury);
+  animation: aboutImgKenBurns 18s ease-in-out infinite alternate;
+}
+
+@keyframes aboutImgKenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.06) translate(-1%, -1%);
+  }
 }
 
 .about-img-frame:hover .about-img {
-  transform: scale(1.04);
+  transform: scale(1.09);
+}
+
+/* Floating Luxury Badge on Story Photo */
+.about-floating-badge {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  background: rgba(8, 35, 38, 0.85);
+  border: 1px solid rgba(223, 194, 126, 0.4);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  animation: badgeLevitate 4s ease-in-out infinite alternate;
+}
+
+@keyframes badgeLevitate {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+.about-floating-badge .badge-star {
+  color: var(--color-antique-gold);
+  font-size: 0.9rem;
+}
+
+.about-floating-badge .badge-text {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-warm-ivory);
+  font-weight: 500;
 }
 
 /* ── 13. ROOMS & SUITES ──────────────────────────────────────── */
@@ -1469,15 +1507,14 @@ p {
 .cylinder-hero-viewport {
   position: relative;
   width: 100%;
-  height: 520px;
+  height: clamp(580px, 68vh, 720px);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  border: 1px solid rgba(223, 194, 126, 0.28);
-  background: radial-gradient(circle at 50% 50%, rgba(26, 122, 122, 0.22) 0%, rgba(8, 35, 38, 0.98) 75%);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45), inset 0 0 50px rgba(8, 35, 38, 0.9);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  perspective: 1200px;
+  border: none;
+  background: transparent;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  perspective: 1300px;
   perspective-origin: 50% 50%;
   cursor: grab;
   user-select: none;
@@ -1501,8 +1538,8 @@ p {
 
 .cylinder-card {
   position: absolute;
-  width: clamp(280px, 30vw, 380px);
-  height: clamp(190px, 22vw, 255px);
+  width: clamp(340px, 35vw, 500px);
+  height: clamp(230px, 25vw, 340px);
   transform-style: preserve-3d;
   cursor: pointer;
   will-change: transform;
@@ -2276,6 +2313,174 @@ p {
   color: var(--color-deep-teal) !important;
 }
 
+/* ── 19b. LUXURY CUSTOM ROOM SELECTOR ───────────────────────── */
+.luxury-room-selector {
+  position: relative;
+  width: 100%;
+}
+
+.room-selector-trigger {
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: rgba(8, 35, 38, 0.75);
+  border: 1px solid rgba(223, 194, 126, 0.35);
+  border-radius: var(--radius-sm);
+  color: var(--color-warm-ivory);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.room-selector-trigger:hover,
+.room-selector-trigger:focus,
+.luxury-room-selector.active .room-selector-trigger {
+  border-color: var(--color-antique-gold);
+  background: rgba(8, 35, 38, 0.95);
+  box-shadow: 0 0 16px rgba(223, 194, 126, 0.25);
+  outline: none;
+}
+
+.room-trigger-content {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  overflow: hidden;
+}
+
+.room-trigger-placeholder {
+  color: var(--color-seafoam);
+  opacity: 0.8;
+  font-size: 0.92rem;
+}
+
+.room-trigger-selected {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.room-trigger-thumb {
+  width: 44px;
+  height: 32px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid rgba(223, 194, 126, 0.4);
+}
+
+.room-trigger-name {
+  font-weight: 600;
+  color: var(--color-warm-ivory);
+}
+
+.room-trigger-price {
+  font-size: 0.85rem;
+  color: var(--color-antique-gold);
+  font-family: var(--font-display);
+}
+
+.room-trigger-chevron {
+  color: var(--color-antique-gold);
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.luxury-room-selector.active .room-trigger-chevron {
+  transform: rotate(180deg);
+}
+
+.room-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(8, 35, 38, 0.98);
+  border: 1px solid rgba(223, 194, 126, 0.45);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 50;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: dropdownFadeIn 0.25s var(--ease-luxury);
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.room-opt {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.15rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(223, 194, 126, 0.12);
+  transition: background 0.2s ease;
+  user-select: none;
+}
+
+.room-opt:last-child {
+  border-bottom: none;
+}
+
+.room-opt:hover,
+.room-opt.selected {
+  background: rgba(26, 122, 122, 0.35);
+}
+
+.room-opt-thumb {
+  width: 54px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid rgba(223, 194, 126, 0.35);
+  flex-shrink: 0;
+}
+
+.room-opt-info {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.room-opt-name {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  color: var(--color-warm-ivory);
+  font-weight: 600;
+}
+
+.room-opt-desc {
+  font-size: 0.76rem;
+  color: var(--color-seafoam);
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.room-opt-price {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-antique-gold);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.room-opt-price span {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--color-seafoam);
+  font-family: var(--font-sans);
+  font-weight: 400;
+}
+
 /* ── 20. LOCATION & MAP ──────────────────────────────────────── */
 .location-grid {
   display: grid;
@@ -2417,60 +2622,307 @@ p {
   letter-spacing: 0.1em;
 }
 
-/* ── 23. FLOATING WHATSAPP BUTTON & TOOLTIP ───────────────────── */
-.whatsapp-float-wrap {
+/* ── 23. AURELIA AI CONCIERGE ASSISTANT ──────────────────────── */
+.ai-assistant-wrap {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  z-index: 1000;
+  z-index: 10000;
+}
+
+.ai-assistant-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.45rem;
+  background: linear-gradient(135deg, rgba(8, 35, 38, 0.96), rgba(26, 122, 122, 0.95));
+  border: 1px solid var(--color-antique-gold);
+  border-radius: var(--radius-pill);
+  color: var(--color-warm-ivory);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(8, 35, 38, 0.5), 0 0 20px rgba(223, 194, 126, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.35s var(--ease-spring);
+  outline: none;
+}
+
+.ai-assistant-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 14px 40px rgba(8, 35, 38, 0.6), 0 0 30px rgba(223, 194, 126, 0.6);
+  border-color: #f7e2a9;
+}
+
+.ai-btn-glow {
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 50%, rgba(223, 194, 126, 0.4), transparent 70%);
+  animation: aiPulseGlow 3s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes aiPulseGlow {
+  0% { opacity: 0.3; transform: scale(0.96); }
+  100% { opacity: 0.85; transform: scale(1.06); }
+}
+
+.ai-btn-icon {
+  color: var(--color-antique-gold);
+  font-size: 1.15rem;
+  animation: aiStarTwinkle 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes aiStarTwinkle {
+  0% { transform: rotate(0deg) scale(0.9); }
+  100% { transform: rotate(90deg) scale(1.2); }
+}
+
+.ai-btn-text {
+  color: var(--color-warm-ivory);
+}
+
+/* Chat Window */
+.ai-chat-window {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  right: 0;
+  width: min(390px, calc(100vw - 2.5rem));
+  height: 520px;
+  background: rgba(8, 35, 38, 0.98);
+  border: 1px solid rgba(223, 194, 126, 0.4);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.75), 0 0 35px rgba(223, 194, 126, 0.15);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: chatSlideUp 0.35s var(--ease-luxury);
+  transform-origin: bottom right;
+}
+
+@keyframes chatSlideUp {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.ai-chat-header {
+  padding: 1rem 1.25rem;
+  background: rgba(26, 122, 122, 0.25);
+  border-bottom: 1px solid rgba(223, 194, 126, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ai-chat-brand {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.whatsapp-float-btn {
-  width: 58px;
-  height: 58px;
+.ai-avatar {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: #25D366;
-  color: #fff;
+  background: linear-gradient(135deg, var(--color-teal-accent), var(--color-deep-teal));
+  border: 1px solid var(--color-antique-gold);
+  color: var(--color-antique-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
-  animation: waBreathe 3s ease-in-out infinite;
-  transition: transform 0.25s var(--ease-spring);
+  font-size: 1.1rem;
 }
 
-.whatsapp-float-btn:hover {
+.ai-chat-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-warm-ivory);
+  font-weight: 600;
+}
+
+.ai-chat-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--color-seafoam);
+}
+
+.ai-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 0 8px #25D366;
+}
+
+.ai-chat-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(223, 194, 126, 0.1);
+  color: var(--color-warm-ivory);
+  border: 1px solid rgba(223, 194, 126, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-chat-close:hover {
+  background: var(--color-antique-gold);
+  color: var(--color-deep-teal);
+}
+
+.ai-chat-messages {
+  flex-grow: 1;
+  padding: 1.15rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  scroll-behavior: smooth;
+}
+
+.ai-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+}
+
+.ai-msg-bot {
+  align-self: flex-start;
+}
+
+.ai-msg-user {
+  align-self: flex-end;
+}
+
+.ai-msg-bubble {
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--color-warm-ivory);
+}
+
+.ai-msg-bot .ai-msg-bubble {
+  background: rgba(26, 122, 122, 0.28);
+  border: 1px solid rgba(223, 194, 126, 0.25);
+  border-bottom-left-radius: 2px;
+}
+
+.ai-msg-user .ai-msg-bubble {
+  background: var(--color-antique-gold);
+  color: var(--color-deep-teal);
+  font-weight: 500;
+  border-bottom-right-radius: 2px;
+}
+
+.ai-quick-chips {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.5rem 1.15rem;
+  overflow-x: auto;
+  border-top: 1px solid rgba(223, 194, 126, 0.12);
+  scrollbar-width: none;
+}
+
+.ai-quick-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.ai-chip {
+  padding: 0.35rem 0.75rem;
+  background: rgba(26, 122, 122, 0.2);
+  border: 1px solid rgba(223, 194, 126, 0.3);
+  border-radius: var(--radius-pill);
+  color: var(--color-seafoam);
+  font-size: 0.74rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-chip:hover {
+  background: var(--color-antique-gold);
+  color: var(--color-deep-teal);
+  border-color: var(--color-antique-gold);
+}
+
+.ai-chat-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.15rem;
+  background: rgba(8, 35, 38, 0.9);
+  border-top: 1px solid rgba(223, 194, 126, 0.2);
+}
+
+.ai-chat-input-bar input {
+  flex-grow: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(223, 194, 126, 0.25);
+  border-radius: var(--radius-pill);
+  padding: 0.6rem 1rem;
+  color: var(--color-warm-ivory);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.ai-chat-input-bar input:focus {
+  border-color: var(--color-antique-gold);
+}
+
+.ai-chat-input-bar input::placeholder {
+  color: var(--color-seafoam);
+  opacity: 0.6;
+}
+
+.ai-chat-send {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-antique-gold);
+  color: var(--color-deep-teal);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease-spring);
+  flex-shrink: 0;
+}
+
+.ai-chat-send:hover {
   transform: scale(1.1);
 }
 
-@keyframes waBreathe {
-  0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); }
-  50%      { transform: scale(1.06); box-shadow: 0 14px 40px rgba(37, 211, 102, 0.6); }
-}
-
-.whatsapp-tooltip {
-  background: rgba(8, 35, 38, 0.95);
-  backdrop-filter: blur(8px);
-  color: var(--color-warm-ivory);
-  padding: 0.45rem 0.95rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.8rem;
-  font-weight: 500;
-  white-space: nowrap;
-  border: 1px solid rgba(223, 194, 126, 0.35);
-  box-shadow: var(--shadow-card);
-  opacity: 0;
-  transform: translateX(10px);
-  transition: opacity 0.4s ease, transform 0.4s var(--ease-spring);
-  pointer-events: none;
-}
-
-.whatsapp-tooltip.show {
-  opacity: 1;
-  transform: translateX(0);
+@media (max-width: 480px) {
+  .ai-assistant-wrap {
+    bottom: 1.25rem;
+    right: 1.25rem;
+  }
+  .ai-assistant-btn {
+    padding: 0.75rem 1.15rem;
+    font-size: 0.8rem;
+  }
+  .ai-chat-window {
+    width: calc(100vw - 2rem);
+    height: 480px;
+    bottom: calc(100% + 10px);
+    right: -0.25rem;
+  }
 }
 
 /* ── 24. TOAST NOTIFICATION ──────────────────────────────────── */
