@@ -423,6 +423,9 @@ function init3DHorizonReelAndLightbox() {
         </div>
       `;
 
+      card.addEventListener('mouseenter', () => { isHovered = true; });
+      card.addEventListener('mouseleave', () => { isHovered = false; });
+
       card.addEventListener('click', () => {
         if (Math.abs(dragDistance) > 6) return;
         openLightbox(i);
@@ -452,10 +455,6 @@ function init3DHorizonReelAndLightbox() {
     requestAnimationFrame(tickReel);
   };
   requestAnimationFrame(tickReel);
-
-  // Hover detection
-  container.addEventListener('mouseenter', () => { isHovered = true; });
-  container.addEventListener('mouseleave', () => { isHovered = false; });
 
   // Arrow button navigation (rotates by 1 card step = 36 deg)
   const stepAngle = 360 / total;
@@ -1057,6 +1056,16 @@ function initRoomSelector() {
 
   const toggleDropdown = (open) => {
     const isOpen = typeof open === 'boolean' ? open : !selector.classList.contains('active');
+    if (isOpen) {
+      const rect = trigger.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      // If space below is less than 280px, open upwards so it never goes into the next section
+      if (spaceBelow < 280) {
+        selector.classList.add('dropup');
+      } else {
+        selector.classList.remove('dropup');
+      }
+    }
     selector.classList.toggle('active', isOpen);
     trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     menu.style.display = isOpen ? 'flex' : 'none';
@@ -1173,8 +1182,14 @@ You can select your suite in our Request Stay form below!`;
       return `You can submit a reservation inquiry right on this page under <strong>Request Your Stay</strong>. Alternatively, contact our concierge directly at <a href="tel:+916369403544" style="color: var(--color-antique-gold); text-decoration: underline;">+91 63694 03544</a> or <a href="mailto:hello@aureliahotel.com" style="color: var(--color-antique-gold); text-decoration: underline;">hello@aureliahotel.com</a>.`;
     }
 
-    if (q.includes('location') || q.includes('where') || q.includes('varkala') || q.includes('airport') || q.includes('reach')) {
-      return `Aurelia Hotel is perched 30 metres atop the red laterite cliffs of Varkala, Kerala, overlooking the pristine Arabian Sea. Trivandrum International Airport (TRV) is approximately 50 minutes away by scenic coastal drive. We provide private airport chauffeurs upon request.`;
+    if (q.includes('location') || q.includes('where') || q.includes('varkala') || q.includes('airport') || q.includes('reach') || q.includes('direction') || q.includes('address')) {
+      return `Aurelia Hotel is perched 30 metres atop the red laterite cliffs of Varkala, Kerala, overlooking the pristine Arabian Sea:
+<br><br>
+📍 <strong>Address:</strong> Cliff Side, Varkala Beach Road, Kerala 695141<br>
+🚆 <strong>Railway Station:</strong> Varkala Sivagiri (15 mins drive)<br>
+✈️ <strong>Airport:</strong> Trivandrum International Airport / TRV (approx. 75–90 mins drive)<br>
+🏖️ <strong>Beach Access:</strong> Private steps leading directly down to Varkala Sands<br><br>
+Would you like us to arrange a private airport chauffeur or assist with local sightseeing itineraries?`;
     }
 
     if (q.includes('check') || q.includes('time') || q.includes('policy')) {

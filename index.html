@@ -715,9 +715,12 @@
         </div>
       </section>
 
-      <!-- ── 11. SECTION 07: LOCATION ────────────────────────────── -->
+      <!-- ── 11. SECTION 07: LOCATION ("THE DESTINATION") ──────── -->
       <section id="location" class="section section-dark-teal" aria-labelledby="location-title">
-        <div class="container">
+        <!-- Floating golden particles canvas -->
+        <canvas class="golden-particles-canvas" aria-hidden="true"></canvas>
+
+        <div class="container" style="position: relative; z-index: 2;">
           <div class="section-header">
             <span class="section-watermark" aria-hidden="true">07</span>
             <span class="eyebrow">The Destination</span>
@@ -1148,6 +1151,7 @@
 
         <!-- Quick Prompt Chips -->
         <div class="ai-quick-chips" id="aiQuickChips">
+          <button type="button" class="ai-chip" data-prompt="Where is Aurelia Hotel located and how do I reach?">📍 Location &amp; Directions</button>
           <button type="button" class="ai-chip" data-prompt="What are the room types and prices?">Suites &amp; Prices</button>
           <button type="button" class="ai-chip" data-prompt="Tell me about cliff dining and fresh catch">Cliff Dining</button>
           <button type="button" class="ai-chip" data-prompt="What Ayurvedic spa treatments do you offer?">Ayurvedic Spa</button>
