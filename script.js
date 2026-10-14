@@ -473,6 +473,23 @@ function initBentoGallery() {
     document.body.classList.remove('scroll-locked');
   };
 
+  // Expose lightbox trigger for 3D cylinder cards
+  window.openAureliaLightbox = (src, title) => {
+    let foundIdx = galleryData.findIndex((item) => item.src === src);
+    if (foundIdx === -1) {
+      galleryData.push({ src, title: title || 'Aurelia Hotel', alt: title || '' });
+      foundIdx = galleryData.length - 1;
+      if (thumbsContainer) {
+        const thumb = document.createElement('div');
+        thumb.className = 'lightbox-thumb';
+        thumb.innerHTML = `<img src="${src}" alt="${title}" loading="lazy">`;
+        thumb.addEventListener('click', () => showLightboxIndex(foundIdx));
+        thumbsContainer.appendChild(thumb);
+      }
+    }
+    openLightbox(foundIdx);
+  };
+
   tiles.forEach((tile, idx) => {
     tile.addEventListener('click', () => openLightbox(idx));
   });
@@ -502,6 +519,152 @@ function initBentoGallery() {
       else showLightboxIndex(currentIndex + 1);
     }
   }, { passive: true });
+}
+
+/* ── 6B. 3D CYLINDRICAL CURVED STREAM GALLERY ─────────────────── */
+function initCylinderGallery() {
+  const container = document.getElementById('cylinderViewport');
+  const track = document.getElementById('cylinderTrack');
+  if (!container || !track) return;
+
+  const SLICES = 16;
+  const CAMERA = 1.6;
+  const CURVE = 78;
+  const ASPECT = 16 / 9;
+  const SPEED = 4.5; // deg / sec
+
+  const HOTEL_IMAGES = [
+    { src: './images/gallery-1.webp', title: 'Infinity Pool at Dusk' },
+    { src: './images/room-cliff-suite.webp', title: 'The Cliff Suite' },
+    { src: './images/gallery-3.webp', title: 'Cliffside Dining' },
+    { src: './images/gallery-5.webp', title: 'Ayurvedic Sanctuary' },
+    { src: './images/gallery-4.webp', title: 'Varkala Cliff Sunrise' },
+    { src: './images/gallery-2.webp', title: 'Heritage Room' },
+    { src: './images/gallery-6.webp', title: 'Terrace Breakfast' },
+    { src: './images/about.webp', title: 'Aurelia Architecture' },
+    { src: './images/room-garden-villa.webp', title: 'Garden Villa' },
+    { src: './images/room-sea-breeze.webp', title: 'Sea Breeze Room' }
+  ];
+
+  const width = container.clientWidth || 1000;
+  const height = container.clientHeight || 540;
+
+  // Arc & cylinder radius calculation
+  const bend = Math.max(0, Math.min(180, CURVE)) * (Math.PI / 180);
+  const rRatio = (CAMERA - 1 + Math.cos(bend)) / (2 * CAMERA * Math.sin(bend));
+  const rPx = rRatio * width;
+  const camPx = CAMERA * rPx;
+
+  container.style.perspective = `${camPx}px`;
+  container.style.perspectiveOrigin = '50% 50%';
+
+  const tileH = Math.min(height * 0.58, 300);
+  const tileW = Math.min(tileH * ASPECT, width * 0.55);
+  const unit = (tileW / rPx) * (180 / Math.PI);
+  const limit = (CURVE) + unit;
+  const minCount = Math.max(3, Math.ceil((2 * limit) / unit));
+  const count = Math.max(minCount, HOTEL_IMAGES.length);
+  const sweep = count * unit;
+  const duration = sweep / SPEED;
+
+  track.innerHTML = '';
+
+  // Inject or update keyframe rule for dynamic responsive radius
+  const styleId = 'cylinder-dynamic-styles';
+  let styleEl = document.getElementById(styleId);
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = styleId;
+    document.head.appendChild(styleEl);
+  }
+  styleEl.textContent = `
+    @keyframes cylinder-stream-orbit {
+      from {
+        transform: translateZ(${rPx}px) rotateY(0deg) translateZ(-${rPx}px);
+      }
+      to {
+        transform: translateZ(${rPx}px) rotateY(-${sweep}deg) translateZ(-${rPx}px);
+      }
+    }
+  `;
+
+  for (let i = 0; i < count; i++) {
+    const imgData = HOTEL_IMAGES[i % HOTEL_IMAGES.length];
+    const tile = document.createElement('div');
+    tile.className = 'cylinder-tile';
+    tile.style.width = `${tileW}px`;
+    tile.style.height = `${tileH}px`;
+    tile.style.animation = `cylinder-stream-orbit ${duration}s linear infinite`;
+    tile.style.animationDelay = `-${(i / count) * duration}s`;
+    tile.setAttribute('role', 'button');
+    tile.setAttribute('tabindex', '0');
+    tile.setAttribute('aria-label', `View ${imgData.title}`);
+
+    const sliceWidthPct = 100 / SLICES;
+    for (let s = 0; s < SLICES; s++) {
+      const sliceAngle = ((s + 0.5) / SLICES - 0.5) * (tileW / rPx) * (180 / Math.PI);
+      const slice = document.createElement('span');
+      slice.className = 'cylinder-slice';
+      slice.style.left = `${(s / SLICES) * 100}%`;
+      slice.style.width = `calc(${sliceWidthPct}% + 0.5px)`;
+      slice.style.transform = `translateZ(${rPx}px) rotateY(${sliceAngle}deg) translateZ(-${rPx}px)`;
+
+      const img = document.createElement('img');
+      img.src = imgData.src;
+      img.alt = imgData.title;
+      img.loading = 'lazy';
+      img.style.left = `-${s * 100}%`;
+      img.style.width = `${SLICES * 100}%`;
+
+      slice.appendChild(img);
+      tile.appendChild(slice);
+    }
+
+    tile.addEventListener('click', () => {
+      if (typeof window.openAureliaLightbox === 'function') {
+        window.openAureliaLightbox(imgData.src, imgData.title);
+      }
+    });
+
+    track.appendChild(tile);
+  }
+
+  // Hover to pause
+  container.onmouseenter = () => {
+    track.querySelectorAll('.cylinder-tile').forEach((t) => (t.style.animationPlayState = 'paused'));
+  };
+  container.onmouseleave = () => {
+    track.querySelectorAll('.cylinder-tile').forEach((t) => (t.style.animationPlayState = 'running'));
+  };
+}
+
+/* ── 6C. GALLERY VIEW SWITCHER (CYLINDER REEL / BENTO GRID) ─── */
+function initGalleryViewSwitch() {
+  const switchBtns = document.querySelectorAll('.gallery-view-btn');
+  const cylinderView = document.getElementById('cylinderGalleryView');
+  const bentoView = document.getElementById('bentoGalleryView');
+
+  if (!switchBtns.length || !cylinderView || !bentoView) return;
+
+  switchBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const view = btn.getAttribute('data-view');
+      switchBtns.forEach((b) => {
+        const isActive = b === btn;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      if (view === 'cylinder') {
+        cylinderView.style.display = 'block';
+        bentoView.style.display = 'none';
+        initCylinderGallery();
+      } else {
+        cylinderView.style.display = 'none';
+        bentoView.style.display = 'block';
+      }
+    });
+  });
 }
 
 /* ── 7. GUEST VOICES (3D DRAGGABLE STACKED CAROUSEL) ─────────── */
@@ -940,6 +1103,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initTimeOfDayScroll();
   initNavigation();
   initHeroCanvas();
+  initCylinderGallery();
+  initGalleryViewSwitch();
   initBentoGallery();
   initVoicesCarousel();
   initContactSection();

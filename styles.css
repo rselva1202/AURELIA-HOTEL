@@ -1457,7 +1457,180 @@ p {
   flex-shrink: 0;
 }
 
-/* ── 16. BENTO GALLERY ("A GLIMPSE OF AURELIA") ──────────────── */
+/* ── 16. BENTO GALLERY & 3D CYLINDRICAL HORIZON REEL ──────────────── */
+.gallery-view-switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 auto 2.5rem;
+  background: rgba(8, 35, 38, 0.7);
+  padding: 0.35rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(223, 194, 126, 0.25);
+  width: fit-content;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.gallery-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--color-seafoam);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-luxury);
+}
+
+.gallery-view-btn.active {
+  background: var(--color-antique-gold);
+  color: var(--color-deep-teal);
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(223, 194, 126, 0.35);
+}
+
+.gallery-view-btn:hover:not(.active) {
+  color: var(--color-warm-ivory);
+  background: rgba(26, 122, 122, 0.2);
+}
+
+/* 3D Cylindrical Curved Stream View */
+.cylinder-gallery-view {
+  width: 100%;
+  position: relative;
+  transition: opacity 0.4s ease;
+}
+
+.cylinder-hero-viewport {
+  position: relative;
+  width: 100%;
+  height: 540px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid rgba(223, 194, 126, 0.25);
+  background: radial-gradient(circle at 50% 50%, rgba(26, 122, 122, 0.18) 0%, rgba(8, 35, 38, 0.95) 75%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 0 40px rgba(8, 35, 38, 0.8);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  contain: layout paint;
+}
+
+.cylinder-hero-overlay-center {
+  position: absolute;
+  top: 1.75rem;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+  padding: 0 1rem;
+}
+
+.cylinder-badge {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-antique-gold);
+  margin-bottom: 0.35rem;
+}
+
+.cylinder-hero-overlay-center h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 300;
+  color: var(--color-warm-ivory);
+  margin-bottom: 0.25rem;
+}
+
+.cylinder-hero-overlay-center p {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--color-seafoam);
+  opacity: 0.85;
+}
+
+.cylinder-track {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cylinder-tile {
+  position: absolute;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  will-change: transform;
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  transition: filter 0.3s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cylinder-tile:hover {
+  filter: brightness(1.1) drop-shadow(0 0 20px rgba(223, 194, 126, 0.45));
+}
+
+.cylinder-slice {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-top: 1px solid rgba(223, 194, 126, 0.3);
+  border-bottom: 1px solid rgba(223, 194, 126, 0.3);
+}
+
+.cylinder-slice:first-child {
+  border-left: 1px solid rgba(223, 194, 126, 0.3);
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+}
+
+.cylinder-slice:last-child {
+  border-right: 1px solid rgba(223, 194, 126, 0.3);
+  border-top-right-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+}
+
+.cylinder-slice img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .cylinder-hero-viewport {
+    height: 420px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cylinder-tile {
+    animation-play-state: paused !important;
+  }
+}
+
 .gallery-filters {
   display: flex;
   justify-content: center;

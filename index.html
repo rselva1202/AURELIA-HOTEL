@@ -570,18 +570,44 @@
             <p class="subtitle">Atmospheric vignettes of our boutique cliff haven.</p>
           </div>
 
-          <!-- Sliding Category Filter -->
-          <div class="gallery-filters" role="tablist" aria-label="Filter gallery spaces">
-            <div class="gallery-filter-pill" aria-hidden="true"></div>
-            <button class="gallery-filter-btn active" data-category="all" role="tab" aria-selected="true">All</button>
-            <button class="gallery-filter-btn" data-category="rooms" role="tab" aria-selected="false">Rooms</button>
-            <button class="gallery-filter-btn" data-category="dining" role="tab" aria-selected="false">Dining</button>
-            <button class="gallery-filter-btn" data-category="wellness" role="tab" aria-selected="false">Wellness</button>
-            <button class="gallery-filter-btn" data-category="views" role="tab" aria-selected="false">Views</button>
+          <!-- Gallery View Mode Toggle (3D Cylinder Stream / Curated Bento Grid) -->
+          <div class="gallery-view-switch" role="tablist" aria-label="Choose gallery display mode">
+            <button class="gallery-view-btn active" data-view="cylinder" role="tab" aria-selected="true" id="tab-cylinder">
+              <span class="view-btn-icon" aria-hidden="true">✦</span>
+              <span>3D Cylinder Reel</span>
+            </button>
+            <button class="gallery-view-btn" data-view="bento" role="tab" aria-selected="false" id="tab-bento">
+              <span class="view-btn-icon" aria-hidden="true">☷</span>
+              <span>Curated Bento Grid</span>
+            </button>
           </div>
 
-          <!-- Bento Grid (Balanced 7 items, 0 orphans) -->
-          <div class="bento-grid">
+          <!-- View 1: 3D Cylindrical Curved Stream Reel -->
+          <div class="cylinder-gallery-view active" id="cylinderGalleryView" role="tabpanel" aria-labelledby="tab-cylinder">
+            <div class="cylinder-hero-viewport" id="cylinderViewport">
+              <div class="cylinder-hero-overlay-center">
+                <span class="cylinder-badge">Arabian Sea Horizon</span>
+                <h3>Flowing Cliffside Moments</h3>
+                <p>Hover to pause · Click card for full cinematic view</p>
+              </div>
+              <div class="cylinder-track" id="cylinderTrack"></div>
+            </div>
+          </div>
+
+          <!-- View 2: Curated Bento Grid (7 Items) -->
+          <div class="bento-gallery-view" id="bentoGalleryView" role="tabpanel" aria-labelledby="tab-bento" style="display: none;">
+            <!-- Sliding Category Filter -->
+            <div class="gallery-filters" role="tablist" aria-label="Filter gallery spaces">
+              <div class="gallery-filter-pill" aria-hidden="true"></div>
+              <button class="gallery-filter-btn active" data-category="all" role="tab" aria-selected="true">All</button>
+              <button class="gallery-filter-btn" data-category="rooms" role="tab" aria-selected="false">Rooms</button>
+              <button class="gallery-filter-btn" data-category="dining" role="tab" aria-selected="false">Dining</button>
+              <button class="gallery-filter-btn" data-category="wellness" role="tab" aria-selected="false">Wellness</button>
+              <button class="gallery-filter-btn" data-category="views" role="tab" aria-selected="false">Views</button>
+            </div>
+
+            <!-- Bento Grid (Balanced 7 items, 0 orphans) -->
+            <div class="bento-grid">
             <!-- Tile 1: Arched Hero (Infinity pool) -->
             <div class="bento-tile bento-tile-1" data-category="wellness" role="button" tabindex="0" aria-label="View Infinity Pool photo">
               <img src="./images/gallery-1.webp" alt="Cliff-edge infinity swimming pool merging with Arabian Sea horizon at dusk" class="bento-img" loading="lazy">
@@ -674,7 +700,8 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       <!-- Cinematic Lightbox Modal -->
       <div class="lightbox-overlay" role="dialog" aria-modal="true" aria-label="Cinematic Photo Lightbox">
