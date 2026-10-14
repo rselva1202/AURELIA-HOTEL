@@ -64,8 +64,16 @@ export default function LoadingCurtain({
       aria-label="Loading experience"
     >
       <div className={styles.introContent}>
-        {/* Brand Monogram */}
-        <div className={styles.brandMark}>{brandTitle}</div>
+        {/* Floating & Assembling Brand Letters */}
+        <h1 className={styles.brandMark} aria-label={brandTitle}>
+          <span className={styles.curtainLetter} style={{ '--fx': '-65px', '--fy': '-36px', '--fr': '-15deg', '--delay': '0.04s' }}>A</span>
+          <span className={styles.curtainLetter} style={{ '--fx': '-38px', '--fy': '42px', '--fr': '13deg', '--delay': '0.12s' }}>U</span>
+          <span className={styles.curtainLetter} style={{ '--fx': '-16px', '--fy': '-48px', '--fr': '-11deg', '--delay': '0.20s' }}>R</span>
+          <span className={styles.curtainLetter} style={{ '--fx': '12px', '--fy': '38px', '--fr': '16deg', '--delay': '0.08s' }}>E</span>
+          <span className={styles.curtainLetter} style={{ '--fx': '34px', '--fy': '-34px', '--fr': '-14deg', '--delay': '0.26s' }}>L</span>
+          <span className={styles.curtainLetter} style={{ '--fx': '58px', '--fy': '32px', '--fr': '10deg', '--delay': '0.16s' }}>I</span>
+          <span className={styles.curtainLetter} style={{ '--fx': '82px', '--fy': '-42px', '--fr': '-13deg', '--delay': '0.24s' }}>A</span>
+        </h1>
 
         {/* 1px Hairline Progress Bar */}
         <div className={styles.hairlineTrack} aria-hidden="true">

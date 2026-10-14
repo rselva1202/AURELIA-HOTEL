@@ -1238,13 +1238,17 @@ function initLoadingCurtain() {
     return;
   }
 
-  // Animate progress and typography
+  // 1. Kick off hairline progress as letters start converging
   setTimeout(() => {
     if (progress) progress.classList.add('animating');
-    maskTexts.forEach((t) => t.classList.add('revealed'));
-  }, 200);
+  }, 900);
 
-  // Trigger lift-off
+  // 2. Reveal editorial subtitle lines
+  setTimeout(() => {
+    maskTexts.forEach((t) => t.classList.add('revealed'));
+  }, 1300);
+
+  // 3. Trigger curtain lift-off after letters assemble and gleam
   setTimeout(() => {
     curtain.classList.add('is-ready');
     curtain.addEventListener('transitionend', (e) => {
@@ -1252,7 +1256,7 @@ function initLoadingCurtain() {
         curtain.classList.add('is-hidden');
       }
     });
-  }, 2200);
+  }, 2800);
 }
 
 /* ── 14. GLOBAL INITIALIZATION ───────────────────────────────── */
