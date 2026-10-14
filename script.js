@@ -521,124 +521,69 @@ function initBentoGallery() {
   }, { passive: true });
 }
 
-/* ── 6B. 3D CYLINDRICAL CURVED STREAM GALLERY ─────────────────── */
+/* ── 6B. 3D CYLINDRICAL CURVED HORIZON REEL ─────────────────── */
 function initCylinderGallery() {
   const container = document.getElementById('cylinderViewport');
   const track = document.getElementById('cylinderTrack');
   if (!container || !track) return;
 
-  const SLICES = 16;
-  const CAMERA = 1.6;
-  const CURVE = 78;
-  const ASPECT = 16 / 9;
-  const SPEED = 4.5; // deg / sec
-
   const HOTEL_IMAGES = [
-    { src: './images/gallery-1.webp', title: 'Infinity Pool at Dusk' },
-    { src: './images/room-cliff-suite.webp', title: 'The Cliff Suite' },
-    { src: './images/gallery-3.webp', title: 'Cliffside Dining' },
-    { src: './images/gallery-5.webp', title: 'Ayurvedic Sanctuary' },
-    { src: './images/gallery-4.webp', title: 'Varkala Cliff Sunrise' },
-    { src: './images/gallery-2.webp', title: 'Heritage Room' },
-    { src: './images/gallery-6.webp', title: 'Terrace Breakfast' },
-    { src: './images/about.webp', title: 'Aurelia Architecture' },
-    { src: './images/room-garden-villa.webp', title: 'Garden Villa' },
-    { src: './images/room-sea-breeze.webp', title: 'Sea Breeze Room' }
+    { src: './images/gallery-1.webp', title: 'Infinity Pool at Dusk', cat: 'Wellness · Horizon' },
+    { src: './images/room-cliff-suite.webp', title: 'The Cliff Suite', cat: 'Rooms · Oceanfront' },
+    { src: './images/gallery-3.webp', title: 'Cliffside Dining', cat: 'Dining · Evening' },
+    { src: './images/gallery-5.webp', title: 'Ayurvedic Sanctuary', cat: 'Wellness · Spa' },
+    { src: './images/gallery-4.webp', title: 'Varkala Cliff Sunrise', cat: 'Views · Coastline' },
+    { src: './images/gallery-2.webp', title: 'Heritage Room', cat: 'Rooms · Laterite' },
+    { src: './images/gallery-6.webp', title: 'Terrace Breakfast', cat: 'Dining · Morning' },
+    { src: './images/about.webp', title: 'Aurelia Architecture', cat: 'Resort · Malabar' },
+    { src: './images/room-garden-villa.webp', title: 'Garden Villa', cat: 'Rooms · Botanical' },
+    { src: './images/room-sea-breeze.webp', title: 'Sea Breeze Room', cat: 'Rooms · Balcony' }
   ];
 
+  const total = HOTEL_IMAGES.length;
   const width = container.clientWidth || 1000;
-  const height = container.clientHeight || 540;
-
-  // Arc & cylinder radius calculation
-  const bend = Math.max(0, Math.min(180, CURVE)) * (Math.PI / 180);
-  const rRatio = (CAMERA - 1 + Math.cos(bend)) / (2 * CAMERA * Math.sin(bend));
-  const rPx = rRatio * width;
-  const camPx = CAMERA * rPx;
-
-  container.style.perspective = `${camPx}px`;
-  container.style.perspectiveOrigin = '50% 50%';
-
-  const tileH = Math.min(height * 0.58, 300);
-  const tileW = Math.min(tileH * ASPECT, width * 0.55);
-  const unit = (tileW / rPx) * (180 / Math.PI);
-  const limit = (CURVE) + unit;
-  const minCount = Math.max(3, Math.ceil((2 * limit) / unit));
-  const count = Math.max(minCount, HOTEL_IMAGES.length);
-  const sweep = count * unit;
-  const duration = sweep / SPEED;
+  const radius = Math.max(520, Math.min(760, width * 0.55));
 
   track.innerHTML = '';
 
-  // Inject or update keyframe rule for dynamic responsive radius
-  const styleId = 'cylinder-dynamic-styles';
-  let styleEl = document.getElementById(styleId);
-  if (!styleEl) {
-    styleEl = document.createElement('style');
-    styleEl.id = styleId;
-    document.head.appendChild(styleEl);
-  }
-  styleEl.textContent = `
-    @keyframes cylinder-stream-orbit {
-      from {
-        transform: translateZ(${rPx}px) rotateY(0deg) translateZ(-${rPx}px);
-      }
-      to {
-        transform: translateZ(${rPx}px) rotateY(-${sweep}deg) translateZ(-${rPx}px);
-      }
-    }
-  `;
+  HOTEL_IMAGES.forEach((item, i) => {
+    const angle = (i / total) * 360;
+    const card = document.createElement('div');
+    card.className = 'cylinder-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `View ${item.title}`);
 
-  for (let i = 0; i < count; i++) {
-    const imgData = HOTEL_IMAGES[i % HOTEL_IMAGES.length];
-    const tile = document.createElement('div');
-    tile.className = 'cylinder-tile';
-    tile.style.width = `${tileW}px`;
-    tile.style.height = `${tileH}px`;
-    tile.style.animation = `cylinder-stream-orbit ${duration}s linear infinite`;
-    tile.style.animationDelay = `-${(i / count) * duration}s`;
-    tile.setAttribute('role', 'button');
-    tile.setAttribute('tabindex', '0');
-    tile.setAttribute('aria-label', `View ${imgData.title}`);
+    // Inside cylinder geometry: ends curve toward viewer
+    card.style.transform = `rotateY(${angle}deg) translateZ(-${radius}px)`;
 
-    const sliceWidthPct = 100 / SLICES;
-    for (let s = 0; s < SLICES; s++) {
-      const sliceAngle = ((s + 0.5) / SLICES - 0.5) * (tileW / rPx) * (180 / Math.PI);
-      const slice = document.createElement('span');
-      slice.className = 'cylinder-slice';
-      slice.style.left = `${(s / SLICES) * 100}%`;
-      slice.style.width = `calc(${sliceWidthPct}% + 0.5px)`;
-      slice.style.transform = `translateZ(${rPx}px) rotateY(${sliceAngle}deg) translateZ(-${rPx}px)`;
+    card.innerHTML = `
+      <img src="${item.src}" alt="${item.title}" loading="lazy" />
+      <div class="cylinder-card-glass">
+        <span class="cylinder-card-cat">${item.cat}</span>
+        <h4 class="cylinder-card-title">${item.title}</h4>
+      </div>
+    `;
 
-      const img = document.createElement('img');
-      img.src = imgData.src;
-      img.alt = imgData.title;
-      img.loading = 'lazy';
-      img.style.left = `-${s * 100}%`;
-      img.style.width = `${SLICES * 100}%`;
-
-      slice.appendChild(img);
-      tile.appendChild(slice);
-    }
-
-    tile.addEventListener('click', () => {
+    card.addEventListener('click', () => {
       if (typeof window.openAureliaLightbox === 'function') {
-        window.openAureliaLightbox(imgData.src, imgData.title);
+        window.openAureliaLightbox(item.src, item.title);
       }
     });
 
-    track.appendChild(tile);
-  }
+    track.appendChild(card);
+  });
 
-  // Hover to pause
+  // Pause track spin on hover
   container.onmouseenter = () => {
-    track.querySelectorAll('.cylinder-tile').forEach((t) => (t.style.animationPlayState = 'paused'));
+    track.style.animationPlayState = 'paused';
   };
   container.onmouseleave = () => {
-    track.querySelectorAll('.cylinder-tile').forEach((t) => (t.style.animationPlayState = 'running'));
+    track.style.animationPlayState = 'running';
   };
 }
 
-/* ── 6C. GALLERY VIEW SWITCHER (CYLINDER REEL / BENTO GRID) ─── */
+/* ── 6C. GALLERY VIEW SWITCHER (BENTO GRID / 3D REEL) ───────── */
 function initGalleryViewSwitch() {
   const switchBtns = document.querySelectorAll('.gallery-view-btn');
   const cylinderView = document.getElementById('cylinderGalleryView');
@@ -660,8 +605,15 @@ function initGalleryViewSwitch() {
         bentoView.style.display = 'none';
         initCylinderGallery();
       } else {
-        cylinderView.style.display = 'none';
+        cylinderView.style.display = 'block';
         bentoView.style.display = 'block';
+        // Hide cylinder
+        cylinderView.style.display = 'none';
+        // Recalculate filter pill position
+        const activeFilterBtn = document.querySelector('.gallery-filter-btn.active');
+        if (activeFilterBtn) {
+          activeFilterBtn.click();
+        }
       }
     });
   });
@@ -1103,9 +1055,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initTimeOfDayScroll();
   initNavigation();
   initHeroCanvas();
+  initBentoGallery();
   initCylinderGallery();
   initGalleryViewSwitch();
-  initBentoGallery();
   initVoicesCarousel();
   initContactSection();
   initAmbientSound();
