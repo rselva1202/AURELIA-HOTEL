@@ -160,12 +160,13 @@ function initHeroCanvas() {
   const canvas = document.querySelector('.hero-canvas');
   if (!track || !canvas) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', { alpha: false });
   const isMobile = window.innerWidth < 768;
   const basePath = isMobile ? AURELIA_CONFIG.hero.mobilePath : AURELIA_CONFIG.hero.desktopPath;
   const totalFrames = isMobile ? AURELIA_CONFIG.hero.mobileCount : AURELIA_CONFIG.hero.desktopCount;
   
   const frames = new Array(totalFrames);
+  const loadedSet = new Set();
   let curFrame = 0;
   let targetFrame = 0;
   let rafId = null;
@@ -202,21 +203,22 @@ function initHeroCanvas() {
     return true;
   };
 
+  // Find best loaded frame: exact index first, then closest available neighbor
+  const getBestFrame = (idx) => {
+    if (loadedSet.has(idx)) return frames[idx];
+    for (let offset = 1; offset < totalFrames; offset++) {
+      const prev = idx - offset;
+      if (prev >= 0 && loadedSet.has(prev)) return frames[prev];
+      const next = idx + offset;
+      if (next < totalFrames && loadedSet.has(next)) return frames[next];
+    }
+    return posterImg;
+  };
+
   // Render current frame or closest loaded neighbour
   const render = () => {
     const idx = Math.round(clamp(curFrame, 0, totalFrames - 1));
-    let img = frames[idx];
-
-    // Find nearest loaded frame if target frame is downloading
-    if (!img || !img.complete || img.naturalWidth === 0) {
-      for (let offset = 1; offset < 35; offset++) {
-        const prev = frames[idx - offset];
-        if (prev && prev.complete && prev.naturalWidth > 0) { img = prev; break; }
-        const next = frames[idx + offset];
-        if (next && next.complete && next.naturalWidth > 0) { img = next; break; }
-      }
-    }
-
+    const img = getBestFrame(idx);
     if (!drawImageCover(img)) {
       drawImageCover(posterImg);
     }
@@ -232,27 +234,80 @@ function initHeroCanvas() {
     render();
   };
 
-  // RAF loop with smoothing
+  // Request single frame on demand with async decoding
+  const requestFrame = (idx) => {
+    if (idx < 0 || idx >= totalFrames || frames[idx]) return;
+    const img = new Image();
+    img.decoding = 'async';
+    img.src = `${basePath}${padNum(idx + 1)}.webp`;
+    img.onload = () => {
+      loadedSet.add(idx);
+      // Re-render if close to current frame
+      if (Math.abs(curFrame - idx) <= 1.5) {
+        render();
+      }
+    };
+    frames[idx] = img;
+  };
+
+  // Progressive preloader: Milestone checkpoints first, then prioritize current view
+  const loadFrames = () => {
+    // 1. Initial immediate start batch
+    const initialBatch = Math.min(10, totalFrames);
+    for (let i = 0; i < initialBatch; i++) {
+      requestFrame(i);
+    }
+
+    // 2. Global milestone checkpoints (every 5th frame on mobile) across the whole video
+    // This guarantees no matter how fast user scrolls on mobile, there's always a frame within 2-3 frames!
+    const stepSize = isMobile ? 5 : 8;
+    for (let i = initialBatch; i < totalFrames; i += stepSize) {
+      requestFrame(i);
+    }
+    requestFrame(totalFrames - 1); // final frame
+
+    // 3. Stream remaining intermediate frames in background
+    let bgIndex = 0;
+    const streamRest = () => {
+      let count = 0;
+      while (bgIndex < totalFrames && count < 4) {
+        if (!frames[bgIndex]) {
+          requestFrame(bgIndex);
+          count++;
+        }
+        bgIndex++;
+      }
+      if (bgIndex < totalFrames) {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(streamRest);
+        } else {
+          setTimeout(streamRest, 40);
+        }
+      }
+    };
+    setTimeout(streamRest, 200);
+  };
+
+  // Proactively fetch a window of frames ahead of target scroll
+  const prioritizeWindow = (centerIdx) => {
+    const start = Math.max(0, centerIdx - 4);
+    const end = Math.min(totalFrames - 1, centerIdx + 12);
+    for (let i = start; i <= end; i++) {
+      requestFrame(i);
+    }
+  };
+
+  // RAF loop with responsive smoothing
   const tick = () => {
     const prev = curFrame;
-    curFrame = lerp(prev, targetFrame, 1 - AURELIA_CONFIG.hero.smoothing);
-    if (Math.abs(curFrame - prev) > 0.02) {
+    // On mobile, use faster lerp (0.35) so frames follow finger with zero lag.
+    // On desktop, use smooth luxury ease (0.16).
+    const lerpFactor = isMobile ? 0.35 : (1 - AURELIA_CONFIG.hero.smoothing);
+    curFrame = lerp(prev, targetFrame, lerpFactor);
+    if (Math.abs(curFrame - prev) > 0.01) {
       render();
     }
     rafId = requestAnimationFrame(tick);
-  };
-
-  // Preload initial frames, then stream the rest
-  const loadFrames = () => {
-    const initialBatch = Math.min(25, totalFrames);
-    for (let i = 0; i < totalFrames; i++) {
-      const img = new Image();
-      img.src = `${basePath}${padNum(i + 1)}.webp`;
-      frames[i] = img;
-      if (i === 0) {
-        img.onload = () => render();
-      }
-    }
   };
 
   // Step text watcher
@@ -272,6 +327,9 @@ function initHeroCanvas() {
     const progress = clamp(-rect.top / maxScroll, 0, 1);
     targetFrame = progress * (totalFrames - 1);
 
+    // Prioritize downloading frames around current position
+    prioritizeWindow(Math.round(targetFrame));
+
     // Update steps
     stepElements.forEach((el, idx) => {
       const s = steps[idx];
@@ -287,6 +345,7 @@ function initHeroCanvas() {
 
   window.addEventListener('resize', resizeCanvas);
   window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  window.addEventListener('touchmove', updateScrollProgress, { passive: true });
 
   resizeCanvas();
   loadFrames();
