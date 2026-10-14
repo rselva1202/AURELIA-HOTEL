@@ -36,7 +36,7 @@ const AURELIA_CONFIG = {
   // Drifting lanterns / fireflies
   particles: {
     count: 18,          // max floating particles in dark section
-    glowColor: 'rgba(226, 194, 120, 0.75)',
+    glowColor: 'rgba(245, 230, 200, 0.85)',
   },
   // Contact & WhatsApp
   contact: {
@@ -802,7 +802,7 @@ function initFireflies() {
       ctx.arc(x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fillStyle = AURELIA_CONFIG.particles.glowColor;
       ctx.shadowBlur = 8;
-      ctx.shadowColor = '#C9A24B';
+      ctx.shadowColor = '#F5E6C8';
       ctx.fill();
     });
 

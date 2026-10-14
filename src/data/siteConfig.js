@@ -42,10 +42,10 @@ const siteConfig = {
     laterite:  "#c05a2a",
     lateriteLight: "#e07040",
     seafoam:   "#a8d8d8",
-    ivory:     "#fdf8f0",
-    dark:      "#1a1a1a",
-    text:      "#2d2d2d",
-    textLight: "#666666",
+    ivory:     "#fdfbf7",
+    dark:      "#082326",
+    text:      "#0d2b2e",
+    textLight: "#4d6e72",
   },
 
   // ── Typography ───────────────────────────────
