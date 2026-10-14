@@ -37,31 +37,79 @@
   </head>
   <body>
     <!-- ── 1. EDITORIAL LOADING CURTAIN ──────────────────────────── -->
-    <div class="curtain-overlay" role="status" aria-label="Loading Aurelia Hotel Experience">
-      <!-- Ambient Golden Horizon Glow -->
+    <div class="curtain-overlay" id="loadingCurtain" role="status" aria-label="Loading Aurelia Hotel Experience">
+      <!-- Ambient Coastal Glow -->
       <div class="curtain-glow" aria-hidden="true"></div>
 
-      <div class="curtain-content">
-        <!-- Floating & Converging Brand Typography -->
-        <h1 class="curtain-brand" aria-label="Aurelia">
-          <span class="curtain-letter" style="--fx: -65px; --fy: -36px; --fr: -15deg; --delay: 0.04s;">A</span>
-          <span class="curtain-letter" style="--fx: -38px; --fy: 42px; --fr: 13deg; --delay: 0.12s;">U</span>
-          <span class="curtain-letter" style="--fx: -16px; --fy: -48px; --fr: -11deg; --delay: 0.20s;">R</span>
-          <span class="curtain-letter" style="--fx: 12px; --fy: 38px; --fr: 16deg; --delay: 0.08s;">E</span>
-          <span class="curtain-letter" style="--fx: 34px; --fy: -34px; --fr: -14deg; --delay: 0.26s;">L</span>
-          <span class="curtain-letter" style="--fx: 58px; --fy: 32px; --fr: 10deg; --delay: 0.16s;">I</span>
-          <span class="curtain-letter" style="--fx: 82px; --fy: -42px; --fr: -13deg; --delay: 0.24s;">A</span>
-        </h1>
+      <!-- Bird Silhouettes Flying Across Upper Sky -->
+      <div class="curtain-birds-layer" aria-hidden="true">
+        <svg class="curtain-bird curtain-bird-1" viewBox="0 0 32 16" style="top: 17%; --bird-scale: 1; --bird-delay: 3.4s; --bird-duration: 4.2s;">
+          <path d="M 2 13 C 8 4, 13 6, 16 10 C 19 6, 24 4, 30 13 C 24 8, 19 9, 16 12 C 13 9, 8 8, 2 13 Z" fill="rgba(245, 230, 200, 0.8)" />
+        </svg>
+        <svg class="curtain-bird curtain-bird-2" viewBox="0 0 32 16" style="top: 24%; --bird-scale: 0.82; --bird-delay: 3.75s; --bird-duration: 3.8s;">
+          <path d="M 2 13 C 8 4, 13 6, 16 10 C 19 6, 24 4, 30 13 C 24 8, 19 9, 16 12 C 13 9, 8 8, 2 13 Z" fill="rgba(245, 230, 200, 0.72)" />
+        </svg>
+        <svg class="curtain-bird curtain-bird-3" viewBox="0 0 32 16" style="top: 12%; --bird-scale: 0.68; --bird-delay: 4.1s; --bird-duration: 4.0s;">
+          <path d="M 2 13 C 8 4, 13 6, 16 10 C 19 6, 24 4, 30 13 C 24 8, 19 9, 16 12 C 13 9, 8 8, 2 13 Z" fill="rgba(245, 230, 200, 0.6)" />
+        </svg>
+      </div>
 
-        <div class="curtain-hairline-track" aria-hidden="true">
-          <div class="curtain-hairline-progress"></div>
+      <div class="curtain-content">
+        <!-- Wordmark Stage with Fish Layered Behind Letters -->
+        <div class="curtain-brand-stage">
+          <!-- Decorative Fish 1 (Leaps from behind letter 'U') -->
+          <div class="fish-wrap fish-1" style="--fish-delay: 3.15s; left: 22%;">
+            <svg class="curtain-fish" viewBox="0 0 46 26" aria-hidden="true">
+              <path d="M 6 13 L 0 5 C 2 10, 2 16, 0 21 Z" fill="#B34920" />
+              <path d="M 5 13 C 12 4, 30 5, 42 12 C 45 13, 45 14, 42 15 C 30 22, 12 23, 5 13 Z" fill="#DFC27E" />
+              <path d="M 18 6 C 22 1, 28 2, 31 7 C 26 5, 21 5, 18 6 Z" fill="#B34920" />
+              <path d="M 22 15 C 25 18, 29 20, 27 23 C 24 21, 22 18, 22 15 Z" fill="#B34920" />
+              <circle cx="37" cy="12" r="1.8" fill="#082326" />
+            </svg>
+          </div>
+
+          <!-- Decorative Fish 2 (Leaps from behind letter 'E') -->
+          <div class="fish-wrap fish-2" style="--fish-delay: 3.35s; left: 51%;">
+            <svg class="curtain-fish" viewBox="0 0 46 26" aria-hidden="true">
+              <path d="M 6 13 L 0 5 C 2 10, 2 16, 0 21 Z" fill="#B34920" />
+              <path d="M 5 13 C 12 4, 30 5, 42 12 C 45 13, 45 14, 42 15 C 30 22, 12 23, 5 13 Z" fill="#DFC27E" />
+              <path d="M 18 6 C 22 1, 28 2, 31 7 C 26 5, 21 5, 18 6 Z" fill="#B34920" />
+              <path d="M 22 15 C 25 18, 29 20, 27 23 C 24 21, 22 18, 22 15 Z" fill="#B34920" />
+              <circle cx="37" cy="12" r="1.8" fill="#082326" />
+            </svg>
+          </div>
+
+          <!-- Decorative Fish 3 (Leaps from behind letter 'I' / last 'A') -->
+          <div class="fish-wrap fish-3" style="--fish-delay: 3.55s; left: 77%;">
+            <svg class="curtain-fish" viewBox="0 0 46 26" aria-hidden="true">
+              <path d="M 6 13 L 0 5 C 2 10, 2 16, 0 21 Z" fill="#B34920" />
+              <path d="M 5 13 C 12 4, 30 5, 42 12 C 45 13, 45 14, 42 15 C 30 22, 12 23, 5 13 Z" fill="#DFC27E" />
+              <path d="M 18 6 C 22 1, 28 2, 31 7 C 26 5, 21 5, 18 6 Z" fill="#B34920" />
+              <path d="M 22 15 C 25 18, 29 20, 27 23 C 24 21, 22 18, 22 15 Z" fill="#B34920" />
+              <circle cx="37" cy="12" r="1.8" fill="#082326" />
+            </svg>
+          </div>
+
+          <!-- Settling Letter Wordmark (z-index: 3, stays visually in front) -->
+          <h1 class="curtain-brand" aria-label="Aurelia">
+            <span class="curtain-letter" style="--start-x: -110px; --start-y: -65px; --start-rotate: -18deg; --delay: 0.15s;">A</span>
+            <span class="curtain-letter" style="--start-x: 85px; --start-y: -95px; --start-rotate: 14deg; --delay: 0.28s;">U</span>
+            <span class="curtain-letter" style="--start-x: -95px; --start-y: 80px; --start-rotate: -12deg; --delay: 0.42s;">R</span>
+            <span class="curtain-letter" style="--start-x: 90px; --start-y: 85px; --start-rotate: 18deg; --delay: 0.56s;">E</span>
+            <span class="curtain-letter" style="--start-x: -80px; --start-y: -85px; --start-rotate: -15deg; --delay: 0.70s;">L</span>
+            <span class="curtain-letter" style="--start-x: 70px; --start-y: 70px; --start-rotate: 13deg; --delay: 0.82s;">I</span>
+            <span class="curtain-letter" style="--start-x: 105px; --start-y: -75px; --start-rotate: 17deg; --delay: 0.94s;">A</span>
+          </h1>
         </div>
-        <div class="curtain-mask-row">
-          <div class="curtain-mask-text">Boutique Cliff Sanctuary</div>
-        </div>
-        <div class="curtain-mask-row">
-          <div class="curtain-mask-text">Varkala · Kerala · 08°44′ N</div>
-        </div>
+
+        <!-- Thin Decorative Divider (Antique Sand Gold) -->
+        <div class="curtain-divider" aria-hidden="true"></div>
+
+        <!-- Subtitle (Seafoam) -->
+        <div class="curtain-subtitle">Boutique Cliff Sanctuary</div>
+
+        <!-- Location (Muted Warm Ivory) -->
+        <div class="curtain-location">Varkala · Kerala · 08°44′ N</div>
       </div>
     </div>
 

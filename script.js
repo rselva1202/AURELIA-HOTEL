@@ -1227,36 +1227,44 @@ Would you like us to arrange a private airport chauffeur or assist with local si
   });
 }
 
-/* ── 13. EDITORIAL LOADING CURTAIN SEQUENCE ──────────────────── */
+/* ── 13. CINEMATIC COASTAL LOADING SEQUENCE ──────────────────── */
 function initLoadingCurtain() {
-  const curtain = document.querySelector('.curtain-overlay');
-  const progress = document.querySelector('.curtain-hairline-progress');
-  const maskTexts = document.querySelectorAll('.curtain-mask-text');
+  const loadingOverlay = document.getElementById('loadingCurtain') || document.querySelector('.curtain-overlay');
+  const hero = document.getElementById('hero') || document.querySelector('.hero-track');
 
-  if (!curtain || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    if (curtain) curtain.style.display = 'none';
+  if (!loadingOverlay) return;
+
+  // Handle prefers-reduced-motion immediately
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    loadingOverlay.style.display = 'none';
+    loadingOverlay.setAttribute('aria-hidden', 'true');
+    if (hero) hero.classList.add('is-visible');
     return;
   }
 
-  // 1. Kick off hairline progress as letters start converging
-  setTimeout(() => {
-    if (progress) progress.classList.add('animating');
-  }, 900);
+  let hasFinishedLoading = false;
 
-  // 2. Reveal editorial subtitle lines
-  setTimeout(() => {
-    maskTexts.forEach((t) => t.classList.add('revealed'));
-  }, 1300);
+  function finishLoading() {
+    if (hasFinishedLoading) return;
+    hasFinishedLoading = true;
 
-  // 3. Trigger curtain lift-off after letters assemble and gleam
-  setTimeout(() => {
-    curtain.classList.add('is-ready');
-    curtain.addEventListener('transitionend', (e) => {
-      if (e.propertyName === 'transform') {
-        curtain.classList.add('is-hidden');
-      }
-    });
-  }, 2800);
+    loadingOverlay.classList.add('is-exiting');
+    if (hero) {
+      hero.classList.add('is-visible');
+    }
+
+    window.setTimeout(() => {
+      loadingOverlay.setAttribute('aria-hidden', 'true');
+      loadingOverlay.style.display = 'none';
+    }, 1400);
+  }
+
+  // Trigger transition after all stages complete (letters, divider, fish, birds)
+  const finishTimer = window.setTimeout(finishLoading, 5300);
+
+  window.addEventListener('pagehide', () => {
+    clearTimeout(finishTimer);
+  }, { once: true });
 }
 
 /* ── 14. GLOBAL INITIALIZATION ───────────────────────────────── */
